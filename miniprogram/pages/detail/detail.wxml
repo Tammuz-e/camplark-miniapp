@@ -1,0 +1,206 @@
+<wxs module="utils">
+function formatRating(r) {
+  if (r == null || r === '') return '';
+  if (r == 5 || r === '5') return '5.0';
+  return r;
+}
+function formatReviewRating(r) {
+  if (r == null || r === '') return '';
+  var n = parseFloat(r);
+  return isNaN(n) ? '' : n.toFixed(1);
+}
+function getInitial(name) {
+  if (!name || name.length === 0) return '?';
+  return name.substring(0, 1);
+}
+function truncateTitle(str) {
+  if (!str) return '';
+  return str.length > 10 ? str.substring(0, 10) + '...' : str;
+}
+module.exports.formatRating = formatRating;
+module.exports.truncateTitle = truncateTitle;
+module.exports.formatReviewRating = formatReviewRating;
+module.exports.getInitial = getInitial;
+</wxs>
+<view class="detail-page" wx:if="{{spot}}">
+  <view class="detail-hero-wrap">
+    <swiper class="detail-swiper" indicator-dots="{{true}}" indicator-color="rgba(255,255,255,0.5)" indicator-active-color="#FFF" circular autoplay interval="4000">
+      <swiper-item wx:for="{{spot.imgs || [spot.img]}}" wx:key="*this">
+        <image class="detail-hero-img" src="{{item}}" mode="aspectFill" />
+      </swiper-item>
+    </swiper>
+    <image class="detail-back" src="/images/icons/back.svg" mode="aspectFit" bindtap="onBack" />
+  </view>
+
+  <view class="detail-card">
+    <view class="detail-card-top">
+      <view class="detail-meta-row">
+        <view class="detail-terrain-tag" wx:if="{{spot.terrainType}}">{{spot.terrainType}}</view>
+        <view class="detail-rating-row">
+          <image src="/images/icons/star.svg" class="detail-star" mode="aspectFit" />
+          <text class="detail-rating-num">{{utils.formatRating(spot.rating)}}</text>
+          <text class="detail-review-count">({{spot.reviewCount || 89}} 条评价)</text>
+        </view>
+      </view>
+      <text class="detail-title">{{utils.truncateTitle(spot.campName + (spot.spotName ? ' · ' + spot.spotName : ''))}}</text>
+      <view class="detail-camp-row" wx:if="{{spot.campName}}" bindtap="onCampTap">
+        <image class="detail-camp-logo" src="{{spot.campLogo || '/images/camp-forest.png'}}" mode="aspectFill" />
+        <text class="detail-camp-name">{{utils.truncateTitle(spot.campName)}}</text>
+        <text class="detail-camp-arrow" wx:if="{{spot.campId}}">›</text>
+      </view>
+      <view class="detail-price-block">
+        <view class="detail-price-wrap">
+          <text class="detail-price">¥{{spot.priceNum || footerPrice}}</text>
+          <text class="detail-price-unit">/天</text>
+        </view>
+        <view class="detail-free-cancel">免费取消</view>
+      </view>
+    </view>
+
+    <view class="detail-section" wx:if="{{spot.contentBlocks && spot.contentBlocks.length}}">
+      <text class="detail-section-title">关于此地</text>
+      <view class="detail-content-blocks">
+        <block wx:for="{{spot.contentBlocks}}" wx:key="index">
+          <text wx:if="{{item.type === 'text'}}" class="detail-content-text">{{item.content}}</text>
+          <image wx:elif="{{item.type === 'image'}}" class="detail-content-img" src="{{item.src}}" mode="widthFix" />
+        </block>
+      </view>
+    </view>
+
+    <view class="detail-section" wx:if="{{spot.facilities && spot.facilities.length}}">
+      <text class="detail-section-title">便利设施</text>
+      <view class="detail-facility-grid">
+        <block wx:for="{{spot.facilities}}" wx:key="_i">
+          <image wx:if="{{item.type === 'card'}}" class="detail-facility-card" src="{{item.src}}" mode="aspectFill" />
+          <view wx:else class="detail-facility-item">
+            <view class="detail-facility-icon-wrap">
+              <image class="detail-facility-icon" src="{{item.icon}}" mode="aspectFit" />
+            </view>
+            <text class="detail-facility-name">{{item.name}}</text>
+          </view>
+        </block>
+      </view>
+    </view>
+
+    <view class="detail-section">
+      <text class="detail-section-title">位置</text>
+      <view class="detail-map-wrap">
+        <map class="detail-map" latitude="{{spot.latitude || 30}}" longitude="{{spot.longitude || 110}}" scale="14" show-location />
+        <view class="detail-map-pin">
+          <image src="/images/icons/map-pin.svg" class="pin-icon" mode="aspectFit" />
+        </view>
+      </view>
+    </view>
+
+    <view class="detail-section" wx:if="{{reviews.length}}">
+      <view class="detail-review-title-row">
+        <text class="detail-section-title">用户评价</text>
+        <view class="detail-review-all-btn" bindtap="onViewAllReviews">查看全部</view>
+      </view>
+      <view class="detail-review-list">
+        <view class="detail-review-item" wx:for="{{reviews}}" wx:key="id">
+          <view class="detail-review-header">
+            <view class="detail-review-avatar">
+              <image wx:if="{{item.avatar}}" src="{{item.avatar}}" class="detail-review-avatar-img" mode="aspectFill" />
+              <text wx:else class="detail-review-avatar-initial">{{utils.getInitial(item.userName)}}</text>
+            </view>
+            <view class="detail-review-main">
+            <text class="detail-review-user">{{item.userName}}</text>
+            <view class="detail-review-meta">
+              <image src="/images/icons/star.svg" class="detail-review-star" mode="aspectFit" />
+              <text class="detail-review-rating">{{utils.formatReviewRating(item.rating)}}</text>
+              <text class="detail-review-date">{{item.date}}</text>
+            </view>
+            </view>
+          </view>
+          <text class="detail-review-content">{{item.content}}</text>
+          <view class="detail-review-imgs" wx:if="{{item.imgs && item.imgs.length}}">
+            <image class="detail-review-img" src="{{img}}" mode="aspectFill" wx:for="{{item.imgs}}" wx:key="*this" wx:for-item="img" />
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="detail-footer">
+    <text class="detail-footer-price">¥{{footerPrice}} /天</text>
+    <button class="detail-footer-btn" bindtap="onBook">立即预订</button>
+  </view>
+
+  <!-- Figma 下单弹窗 -->
+  <view class="order-modal-mask" wx:if="{{showOrderModal}}" bindtap="onCloseOrderModal" />
+  <view class="order-modal {{showOrderModal ? 'order-modal-show' : ''}}" wx:if="{{showOrderModal}}">
+    <view class="order-modal-content" catchtap="">
+      <view class="order-modal-header">
+        <text class="order-modal-title">预订您的营位</text>
+        <view class="order-modal-close" bindtap="onCloseOrderModal">×</view>
+      </view>
+      <view class="order-modal-body">
+        <view class="order-modal-field">
+          <text class="order-modal-label">预定人</text>
+          <input class="order-modal-input" placeholder="请输入预定人姓名" value="{{bookerName}}" bindinput="onBookerNameInput" />
+        </view>
+        <view class="order-modal-field">
+          <text class="order-modal-label">预定电话</text>
+          <input class="order-modal-input" type="number" placeholder="请输入联系电话" value="{{contactPhone}}" bindinput="onContactPhoneInput" />
+        </view>
+        <view class="order-modal-field">
+          <text class="order-modal-label">选择日期</text>
+          <view class="order-modal-daterange">{{checkIn}} 至 {{checkOut}}</view>
+        </view>
+        <view class="order-modal-calendar">
+          <view class="order-calendar-header">
+            <view class="order-calendar-nav" bindtap="onCalendarPrev">‹</view>
+            <text class="order-calendar-title">{{calendarYear}}年{{calendarMonth + 1}}月</text>
+            <view class="order-calendar-nav" bindtap="onCalendarNext">›</view>
+          </view>
+          <view class="order-calendar-weekdays">
+            <text class="order-calendar-weekday">日</text>
+            <text class="order-calendar-weekday">一</text>
+            <text class="order-calendar-weekday">二</text>
+            <text class="order-calendar-weekday">三</text>
+            <text class="order-calendar-weekday">四</text>
+            <text class="order-calendar-weekday">五</text>
+            <text class="order-calendar-weekday">六</text>
+          </view>
+          <view class="order-calendar-days">
+            <view
+              wx:for="{{calendarDays}}"
+              wx:key="*this"
+              class="order-calendar-day {{item.cls}} {{item.disabled ? 'disabled' : ''}} {{item.empty ? 'empty' : ''}}"
+              data-date-str="{{item.dateStr}}"
+              data-disabled="{{item.disabled}}"
+              bindtap="onCalendarDayTap"
+            >{{item.empty ? '' : item.d}}</view>
+          </view>
+        </view>
+        <view class="order-modal-field">
+          <text class="order-modal-label">人数</text>
+          <view class="order-modal-stepper">
+            <view class="order-modal-stepper-value">{{guests}} 人</view>
+            <view class="order-modal-stepper-btns">
+              <view class="order-modal-btn order-modal-btn-minus {{guests <= 1 ? 'disabled' : ''}}" bindtap="onGuestsMinus">−</view>
+              <view class="order-modal-btn order-modal-btn-plus {{guests >= 10 ? 'disabled' : ''}}" bindtap="onGuestsPlus">+</view>
+            </view>
+          </view>
+        </view>
+        <view class="order-modal-divider" />
+        <view class="order-modal-cost">
+          <view class="order-modal-cost-row">
+            <text class="order-modal-cost-label">¥{{footerPrice}} × {{nights}} 晚</text>
+            <text class="order-modal-cost-value">¥{{footerPrice * nights}}</text>
+          </view>
+          <view class="order-modal-cost-row">
+            <text class="order-modal-cost-label">服务费</text>
+            <text class="order-modal-cost-value">¥{{serviceFee}}</text>
+          </view>
+          <view class="order-modal-cost-row order-modal-cost-total">
+            <text class="order-modal-cost-label">总计</text>
+            <text class="order-modal-cost-value">¥{{totalPrice}}</text>
+          </view>
+        </view>
+      </view>
+      <view class="order-modal-submit" bindtap="onConfirmBook">确认预订</view>
+    </view>
+  </view>
+</view>

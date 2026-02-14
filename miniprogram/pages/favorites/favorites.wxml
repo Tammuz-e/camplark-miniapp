@@ -1,0 +1,95 @@
+<!-- Figma 收藏页 100% - 分类展示 -->
+<wxs module="utils">
+function truncate(str, maxLen) {
+  if (!str || maxLen == null) return str || '';
+  var len = 0, i = 0;
+  for (; i < str.length; i++) {
+    var code = str.charCodeAt(i);
+    len += (code >= 19968 && code <= 40959) ? 2 : 1;
+    if (len > maxLen) break;
+  }
+  if (i >= str.length) return str;
+  return str.substring(0, i) + '...';
+}
+function truncateTitle(str) {
+  if (!str) return '';
+  return str.length > 10 ? str.substring(0, 10) + '...' : str;
+}
+module.exports.truncate = truncate;
+module.exports.truncateTitle = truncateTitle;
+</wxs>
+<view class="favorites-page">
+  <view class="favorites-header">
+    <image class="favorites-back" src="/images/icons/back.svg" mode="aspectFit" bindtap="onBack" />
+  </view>
+  <view class="favorites-body">
+    <text class="page-title">我的收藏</text>
+    <view class="favorites-content" wx:if="{{hasAny}}">
+      <view class="fav-section" wx:if="{{groups.spot.length > 0}}">
+        <text class="fav-section-title">营位</text>
+        <view class="fav-card" wx:for="{{groups.spot}}" wx:key="id" bindtap="onCardTap" data-id="{{item.id}}" data-type="spot">
+          <view class="fav-card-img-wrap">
+            <image class="fav-card-img" src="{{item.img}}" mode="aspectFill" />
+          </view>
+          <view class="fav-card-info">
+            <text class="fav-card-name">{{utils.truncateTitle(item.campName + (item.spotName ? ' · ' + item.spotName : ''))}}</text>
+            <view class="fav-card-meta"><image src="/images/icons/location.png" class="icon-12" /><text>{{item.location}}</text></view>
+            <text class="fav-card-price">{{item.price}}</text>
+          </view>
+          <view class="fav-card-heart"><image src="/images/icons/heart-red.png" mode="aspectFit" /></view>
+        </view>
+      </view>
+      <view class="fav-section" wx:if="{{groups.camp.length > 0}}">
+        <text class="fav-section-title">营地</text>
+        <view class="fav-card" wx:for="{{groups.camp}}" wx:key="id" bindtap="onCardTap" data-id="{{item.id}}" data-type="camp">
+          <view class="fav-card-img-wrap">
+            <image class="fav-card-img" src="{{item.img}}" mode="aspectFill" />
+          </view>
+          <view class="fav-card-info">
+            <text class="fav-card-name">{{utils.truncateTitle(item.campName)}}</text>
+            <view class="fav-card-meta"><image src="/images/icons/location.png" class="icon-12" /><text>{{utils.truncate(item.location, 25)}}</text></view>
+            <text class="fav-card-price">{{item.price}}</text>
+          </view>
+          <view class="fav-card-heart"><image src="/images/icons/heart-red.png" mode="aspectFit" /></view>
+        </view>
+      </view>
+      <view class="fav-section" wx:if="{{groups.service.length > 0}}">
+        <text class="fav-section-title">体验</text>
+        <view class="fav-card" wx:for="{{groups.service}}" wx:key="id" bindtap="onCardTap" data-id="{{item.id}}" data-type="service">
+          <view class="fav-card-img-wrap">
+            <image class="fav-card-img" src="{{item.img}}" mode="aspectFill" />
+          </view>
+          <view class="fav-card-info">
+            <text class="fav-card-name">{{utils.truncateTitle(item.campName + (item.spotName ? ' · ' + item.spotName : ''))}}</text>
+            <view class="fav-card-meta"><image src="/images/icons/location.png" class="icon-12" /><text>{{item.campSiteName}}</text></view>
+            <text class="fav-card-price">{{item.price}}</text>
+          </view>
+          <view class="fav-card-heart"><image src="/images/icons/heart-red.png" mode="aspectFit" /></view>
+        </view>
+      </view>
+      <view class="fav-section" wx:if="{{groups.club.length > 0}}">
+        <text class="fav-section-title">俱乐部</text>
+        <view class="fav-card fav-card--club" wx:for="{{groups.club}}" wx:key="id" bindtap="onCardTap" data-id="{{item.id}}" data-type="club">
+          <view class="fav-card-img-wrap">
+            <image class="fav-card-img" src="{{item.img}}" mode="aspectFill" />
+          </view>
+          <view class="fav-card-info">
+            <text class="fav-card-name">{{utils.truncateTitle(item.clubName)}}</text>
+            <view class="club-tags" wx:if="{{item.tags && item.tags.length}}">
+              <text class="club-tag" wx:for="{{item.tags}}" wx:for-item="tag" wx:key="*this">{{tag}}</text>
+            </view>
+            <text class="fav-card-price">{{item.price}}</text>
+          </view>
+          <view class="fav-card-heart"><image src="/images/icons/heart-red.png" mode="aspectFit" /></view>
+        </view>
+      </view>
+    </view>
+    <view class="empty-state" wx:else>
+      <view class="empty-icon"></view>
+      <text class="empty-title">暂无收藏</text>
+      <text class="empty-desc">去探索页发现心仪营地并收藏吧</text>
+      <view class="empty-btn" bindtap="goExplore">去探索</view>
+    </view>
+  </view>
+  <custom-tab-bar />
+</view>

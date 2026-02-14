@@ -1,0 +1,238 @@
+<!-- Figma 首页 100% 还原 - 设计稿 376px -->
+<wxs module="utils">
+function isFav(ids, id) {
+  if (!ids || id == null) return false;
+  for (var i = 0; i < ids.length; i++) {
+    if (ids[i] == id) return true;
+  }
+  return false;
+}
+function truncate(str, maxLen) {
+  if (!str) return '';
+  var len = 0;
+  var i = 0;
+  for (; i < str.length; i++) {
+    var code = str.charCodeAt(i);
+    len += (code >= 19968 && code <= 40959) ? 2 : 1;
+    if (len > maxLen) break;
+  }
+  if (i >= str.length) return str;
+  return str.substring(0, i) + '...';
+}
+function formatRating(r) {
+  if (r == null || r === '') return '';
+  if (r == 5 || r === '5') return '5.0';
+  return r;
+}
+function stripProvince(str) {
+  if (!str) return '';
+  var i = str.indexOf('省');
+  if (i >= 0) return str.substring(i + 1);
+  i = str.indexOf('自治区');
+  if (i >= 0) return str.substring(i + 3);
+  i = str.indexOf('特别行政区');
+  if (i >= 0) return str.substring(i + 5);
+  if (str.indexOf('北京市') === 0) return str.substring(3);
+  if (str.indexOf('天津市') === 0) return str.substring(3);
+  if (str.indexOf('上海市') === 0) return str.substring(3);
+  if (str.indexOf('重庆市') === 0) return str.substring(3);
+  return str;
+}
+module.exports.truncate = truncate;
+module.exports.isFav = isFav;
+module.exports.formatRating = formatRating;
+module.exports.stripProvince = stripProvince;
+</wxs>
+<view class="index-page">
+  <view class="index-body">
+    <view class="hero">
+      <view class="hero-title-wrap">
+        <text class="hero-title">寻找你的</text>
+        <text class="hero-title hero-accent">下一次逃离</text>
+      </view>
+      <text class="hero-desc">发现最佳露营地点</text>
+    </view>
+
+    <view class="search-bar" bindtap="onSearchTap">
+      <view class="search-icon-left">
+        <image class="search-icon" src="/images/icons/search.png" mode="aspectFit" />
+      </view>
+      <view class="search-inner">
+        <text class="search-placeholder">搜索目的地...</text>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="section-head">
+        <text class="section-title">热门营位</text>
+        <text class="section-more" bindtap="onHotSpotsMoreTap">查看全部</text>
+      </view>
+      <swiper class="hot-swiper" indicator-dots="{{false}}" circular autoplay interval="4000" duration="500">
+        <swiper-item wx:for="{{spots}}" wx:key="id">
+          <view class="swiper-item-wrap" bindtap="onCardTap" data-id="{{item.id}}">
+            <view class="home-card home-card--swiper">
+              <view class="home-card-img-wrap">
+                <image class="home-card-img" src="{{item.img}}" mode="aspectFill" />
+                <view class="home-card-fav" catchtap="onFavTap" data-type="spot" data-id="{{item.id}}">
+                  <image src="{{utils.isFav(favSpotIds, item.id) ? '/images/icons/heart-red.png' : '/images/icons/heart-outline.png'}}" mode="aspectFit" />
+                </view>
+                <view class="home-card-badge">
+                  <image src="/images/icons/star.png" class="badge-icon" /><text>{{utils.formatRating(item.rating)}}</text>
+                </view>
+              </view>
+              <view class="home-card-info">
+                <text class="home-card-name">{{item.campName}} · {{item.spotName}}</text>
+                <view class="home-card-meta">
+                  <image src="/images/icons/location.png" class="meta-icon" /><text>{{item.location}}</text>
+                </view>
+                <view class="home-card-footer">
+                  <view class="home-card-price-wrap">
+                    <text class="home-card-price">{{item.priceNum}}</text><text class="home-card-unit">{{item.priceUnit}}</text>
+                  </view>
+                  <view class="home-card-btn">立即预定</view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </swiper-item>
+      </swiper>
+    </view>
+
+    <view class="section nearby-section">
+      <view class="section-head">
+        <text class="section-title">附近的宝藏地</text>
+        <text class="section-more" bindtap="onNearbyCampsMoreTap">查看全部</text>
+      </view>
+      <view class="nearby-card-list">
+          <view class="nearby-card" wx:for="{{campsDisplay}}" wx:key="id" bindtap="onCampCardTap" data-id="{{item.id}}">
+            <view class="nearby-card-img-wrap">
+              <image class="nearby-card-img" src="{{item.imgs && item.imgs[0] || '/images/camp-forest.png'}}" mode="aspectFill" />
+              <view class="nearby-card-badge">
+                <image src="/images/icons/star.png" class="badge-icon" /><text>{{utils.formatRating(item.rating)}}</text>
+              </view>
+            </view>
+            <view class="nearby-card-info">
+              <text class="nearby-card-name">{{utils.truncate(item.campName, 18)}}</text>
+              <view class="nearby-card-meta"><image src="/images/icons/location.png" class="meta-icon" /><text>{{utils.truncate(utils.stripProvince(item.location), 25)}}</text></view>
+              <view class="nearby-card-footer">
+                <text class="nearby-card-price">{{item.price}}</text>
+                <view class="nearby-card-btn" catchtap="onCampCardTap" data-id="{{item.id}}">查看详情</view>
+              </view>
+            </view>
+            <view class="nearby-card-fav" catchtap="onFavTap" data-type="camp" data-id="{{item.id}}">
+              <image src="{{utils.isFav(favCampIds, item.id) ? '/images/icons/heart-red.png' : '/images/icons/heart-outline.png'}}" mode="aspectFit" class="fav-icon" />
+            </view>
+          </view>
+      </view>
+    </view>
+
+    <view class="section nearby-section">
+      <view class="section-head">
+        <text class="section-title">体验活动</text>
+        <text class="section-more" bindtap="onExperiencesMoreTap">查看全部</text>
+      </view>
+      <view class="nearby-card-list">
+          <view class="nearby-card" wx:for="{{serviceSpotsDisplay}}" wx:key="id" bindtap="onServiceCardTap" data-id="{{item.id}}">
+            <view class="nearby-card-img-wrap">
+              <image class="nearby-card-img" src="{{item.imgs && item.imgs[0] || '/images/camp-forest.png'}}" mode="aspectFill" />
+              <view class="nearby-card-badge">
+                <image src="/images/icons/star.png" class="badge-icon" /><text>{{utils.formatRating(item.rating)}}</text>
+              </view>
+            </view>
+            <view class="nearby-card-info">
+              <text class="nearby-card-name">{{utils.truncate(item.campName, 18)}}</text>
+              <view class="nearby-card-meta"><image src="/images/icons/location.png" class="meta-icon" /><text>{{item.campSiteName}}</text></view>
+              <view class="nearby-card-footer">
+                <text class="nearby-card-price">{{item.price}}</text>
+                <view class="nearby-card-btn" catchtap="onServiceCardTap" data-id="{{item.id}}">立即购买</view>
+              </view>
+            </view>
+            <view class="nearby-card-fav" catchtap="onFavTap" data-type="service" data-id="{{item.id}}">
+              <image src="{{utils.isFav(favServiceIds, item.id) ? '/images/icons/heart-red.png' : '/images/icons/heart-outline.png'}}" mode="aspectFit" class="fav-icon" />
+            </view>
+          </view>
+      </view>
+    </view>
+
+    <view class="section nearby-section">
+      <view class="section-head">
+        <text class="section-title">俱乐部</text>
+        <text class="section-more" bindtap="onClubMoreTap">查看全部</text>
+      </view>
+      <view class="nearby-card-list">
+          <view class="club-card nearby-card" wx:for="{{clubSpotsDisplay}}" wx:key="id" bindtap="onClubCardTap" data-id="{{item.id}}">
+            <view class="nearby-card-img-wrap">
+              <image class="nearby-card-img" src="{{item.img}}" mode="aspectFill" />
+            </view>
+            <view class="nearby-card-info">
+              <text class="nearby-card-name">{{utils.truncate(item.clubName, 18)}}</text>
+              <view class="club-tags">
+                <text class="club-tag" wx:for="{{item.tags}}" wx:for-item="tag" wx:key="*this">{{tag}}</text>
+              </view>
+              <view class="nearby-card-footer">
+                <text class="nearby-card-price">{{item.price}}</text>
+                <view class="nearby-card-btn" catchtap="onClubCardTap" data-id="{{item.id}}">加入</view>
+              </view>
+            </view>
+            <view class="nearby-card-fav" catchtap="onFavTap" data-type="club" data-id="{{item.id}}">
+              <image src="{{utils.isFav(favClubIds, item.id) ? '/images/icons/heart-red.png' : '/images/icons/heart-outline.png'}}" mode="aspectFit" class="fav-icon" />
+            </view>
+          </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="search-overlay" wx:if="{{showSearch}}">
+    <view class="search-overlay-mask" bindtap="onSearchClose" />
+    <view class="search-overlay-content">
+      <view class="search-overlay-header">
+        <view class="search-overlay-input-wrap">
+          <image class="search-overlay-icon" src="/images/icons/search.png" mode="aspectFit" />
+          <input class="search-overlay-input" placeholder="搜索营地、营位、体验" value="{{searchKeyword}}" bindinput="onSearchInput" bindfocus="onSearchFocus" focus="{{showSearch}}" />
+          <text class="search-overlay-clear" wx:if="{{searchKeyword}}" bindtap="onSearchClear">×</text>
+        </view>
+        <text class="search-overlay-cancel" bindtap="onSearchClose">取消</text>
+      </view>
+      <scroll-view class="search-overlay-body" scroll-y>
+        <view class="search-empty" wx:if="{{!searchKeyword}}">
+          <text>输入关键词搜索营地、营位或体验</text>
+        </view>
+        <view class="search-empty" wx:elif="{{!searchResults.camps.length && !searchResults.spots.length && !searchResults.experiences.length}}">
+          <text>未找到相关结果</text>
+        </view>
+        <view wx:else>
+          <view class="search-group" wx:if="{{searchResults.camps.length}}">
+            <text class="search-group-title">营地</text>
+            <view class="search-item" wx:for="{{searchResults.camps}}" wx:key="id" data-type="camp" data-id="{{item.id}}" bindtap="onSearchResultTap">
+              <image class="search-item-img" src="{{item.imgs && item.imgs[0] || '/images/camp-forest.png'}}" mode="aspectFill" />
+              <view class="search-item-info">
+                <text class="search-item-name">{{utils.truncate(item.campName, 18)}}</text>
+                <text class="search-item-meta">{{utils.truncate(item.location, 25)}}</text>
+              </view>
+            </view>
+          </view>
+          <view class="search-group" wx:if="{{searchResults.spots.length}}">
+            <text class="search-group-title">营位</text>
+            <view class="search-item" wx:for="{{searchResults.spots}}" wx:key="id" data-type="spot" data-id="{{item.id}}" bindtap="onSearchResultTap">
+              <image class="search-item-img" src="{{item.imgs && item.imgs[0] || item.img || '/images/camp-forest.png'}}" mode="aspectFill" />
+              <view class="search-item-info">
+                <text class="search-item-name">{{item.spotName}} · {{item.campName}}</text>
+                <text class="search-item-meta">{{item.location}}</text>
+              </view>
+            </view>
+          </view>
+          <view class="search-group" wx:if="{{searchResults.experiences.length}}">
+            <text class="search-group-title">体验</text>
+            <view class="search-item" wx:for="{{searchResults.experiences}}" wx:key="id" data-type="service" data-id="{{item.id}}" bindtap="onSearchResultTap">
+              <image class="search-item-img" src="{{item.imgs && item.imgs[0] || '/images/camp-forest.png'}}" mode="aspectFill" />
+              <view class="search-item-info">
+                <text class="search-item-name">{{utils.truncate(item.campName, 18)}}</text>
+                <text class="search-item-meta">{{item.campSiteName || item.location}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+</view>

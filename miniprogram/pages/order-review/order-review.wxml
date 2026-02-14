@@ -1,0 +1,49 @@
+<wxs module="utils">
+function truncateTitle(str) {
+  if (!str) return '';
+  return str.length > 10 ? str.substring(0, 10) + '...' : str;
+}
+module.exports.truncateTitle = truncateTitle;
+</wxs>
+<view class="order-review-page" wx:if="{{order}}">
+  <view class="order-review-spot">
+    <image class="order-review-img" src="{{order.img}}" mode="aspectFill" />
+    <view class="order-review-info">
+      <text class="order-review-title">{{utils.truncateTitle(order.campName + ' · ' + order.spotName)}}</text>
+      <text class="order-review-date">{{order.checkIn}} 至 {{order.checkOut}}</text>
+    </view>
+  </view>
+
+  <view class="order-review-form">
+    <view class="order-review-field">
+      <text class="order-review-label">评分</text>
+      <view class="order-review-stars">
+        <view class="star {{index <= rating ? 'active' : ''}}" wx:for="{{[1,2,3,4,5]}}" wx:key="*this" wx:for-item="index" data-rating="{{index}}" bindtap="onRatingTap">
+          <image src="/images/icons/star.svg" class="star-icon" mode="aspectFit" />
+        </view>
+      </view>
+    </view>
+    <view class="order-review-field">
+      <text class="order-review-label">评价内容</text>
+      <textarea class="order-review-textarea" placeholder="分享你的露营体验..." value="{{content}}" maxlength="500" show-confirm-bar="{{false}}" bindinput="onContentInput" />
+      <text class="order-review-count">{{content.length}}/500</text>
+    </view>
+    <view class="order-review-field">
+      <text class="order-review-label">添加图片</text>
+      <view class="order-review-imgs">
+        <view class="order-review-img-item" wx:for="{{imgs}}" wx:key="*this">
+          <image class="img-preview" src="{{item}}" mode="aspectFill" />
+          <view class="img-delete" bindtap="onImgDelete" data-index="{{index}}">×</view>
+        </view>
+        <view class="order-review-add-img" wx:if="{{imgs.length < 9}}" bindtap="onAddImg">
+          <text class="add-icon">+</text>
+          <text class="add-text">添加图片</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="order-review-footer">
+    <button class="order-review-submit" bindtap="onSubmit">提交评价</button>
+  </view>
+</view>

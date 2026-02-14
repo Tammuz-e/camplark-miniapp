@@ -1,0 +1,233 @@
+.camp-detail-page {
+  min-height: 100vh;
+  background: #F9FAFB;
+  padding-bottom: calc(160rpx + env(safe-area-inset-bottom));
+}
+
+.camp-detail-hero-wrap {
+  position: relative;
+  width: 100%;
+  height: 440rpx;
+  background: #E8D5C4;
+  overflow: hidden;
+}
+.camp-detail-swiper { width: 100%; height: 100%; }
+.camp-detail-hero-img { width: 100%; height: 100%; display: block; }
+.camp-detail-back {
+  position: absolute;
+  left: 32rpx;
+  top: calc(32rpx + env(safe-area-inset-top));
+  z-index: 10;
+  width: 80rpx;
+  height: 80rpx;
+}
+
+.camp-detail-card {
+  margin: 0;
+  padding: 48rpx;
+}
+.camp-detail-top { margin-bottom: 32rpx; }
+.camp-detail-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-bottom: 16rpx;
+}
+.camp-detail-terrain-tag {
+  padding: 8rpx 16rpx;
+  font-size: 24rpx;
+  font-weight: 700;
+  color: #006045;
+  background: #D0FAE5;
+  border-radius: 999rpx;
+}
+.camp-detail-rating-row {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+.camp-detail-star { width: 28rpx; height: 28rpx; }
+.camp-detail-rating-num { font-size: 28rpx; font-weight: 700; color: #101828; }
+.camp-detail-title {
+  font-size: 56rpx;
+  font-weight: 800;
+  color: #101828;
+  display: block;
+  margin-bottom: 16rpx;
+}
+.camp-detail-location-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16rpx;
+  margin-bottom: 24rpx;
+}
+.camp-detail-loc-icon { width: 32rpx; height: 32rpx; flex-shrink: 0; margin-top: 4rpx; }
+.camp-detail-location {
+  font-size: 28rpx; color: #6A7282;
+  flex: 1; min-width: 0;
+  word-wrap: break-word;
+  line-height: 1.5;
+}
+.camp-detail-price-block { margin-bottom: 0; }
+.camp-detail-price { font-size: 36rpx; font-weight: 700; color: #009966; }
+
+.camp-detail-section { margin-top: 48rpx; }
+.camp-detail-section-title {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #101828;
+  display: block;
+  margin-bottom: 24rpx;
+}
+.camp-detail-area-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+  margin-bottom: 24rpx;
+}
+.camp-detail-area-tab {
+  padding: 12rpx 24rpx;
+  font-size: 26rpx;
+  font-weight: 500;
+  color: #6A7282;
+  background: #F3F4F6;
+  border-radius: 999rpx;
+}
+.camp-detail-area-tab.active {
+  color: #FFF;
+  background: #006045;
+}
+.camp-detail-desc {
+  font-size: 28rpx;
+  color: #4A5565;
+  line-height: 1.625;
+  display: block;
+}
+
+/* 位置（最下方，可点击导航） */
+.camp-detail-location-block {
+  display: flex;
+  align-items: flex-start;
+  gap: 16rpx;
+  padding: 24rpx;
+  background: #F9FAFB;
+  border: 1rpx solid #F3F4F6;
+  border-radius: 24rpx;
+}
+.camp-detail-location-block .camp-detail-loc-icon {
+  width: 40rpx; height: 40rpx;
+  flex-shrink: 0; margin-top: 4rpx;
+}
+.camp-detail-location-content {
+  flex: 1; min-width: 0;
+  display: flex; flex-direction: column; gap: 8rpx;
+}
+.camp-detail-location-addr {
+  font-size: 28rpx; color: #4A5565;
+  line-height: 1.5; word-wrap: break-word;
+}
+.camp-detail-location-nav {
+  font-size: 26rpx; color: #009966; font-weight: 500;
+}
+
+.camp-detail-list-scroll {
+  width: 100%;
+  white-space: nowrap;
+}
+.camp-detail-list {
+  display: inline-flex;
+  gap: 24rpx;
+  padding: 8rpx 0;
+}
+.camp-detail-item {
+  flex-shrink: 0;
+  width: 280rpx;
+  background: #F9FAFB;
+  border: 1rpx solid #F3F4F6;
+  border-radius: 24rpx;
+  overflow: hidden;
+}
+.camp-detail-item-img {
+  width: 100%;
+  height: 180rpx;
+  display: block;
+}
+.camp-detail-item-info { padding: 20rpx; }
+.camp-detail-item-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #101828;
+  display: block;
+  margin-bottom: 8rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.camp-detail-item-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.camp-detail-item-price { font-size: 24rpx; color: #009966; font-weight: 600; }
+.camp-detail-item-rating {
+  display: flex;
+  align-items: center;
+  gap: 4rpx;
+  font-size: 22rpx;
+  color: #6A7282;
+}
+.camp-detail-item-star { width: 20rpx; height: 20rpx; }
+
+/* 营地印象 */
+.camp-detail-impressions {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+.camp-detail-imp-item {
+  width: 100%;
+  border-radius: 24rpx;
+  overflow: hidden;
+  background: #F9FAFB;
+}
+.camp-detail-imp-img {
+  width: 100%;
+  display: block;
+  vertical-align: top;
+}
+.camp-detail-imp-video {
+  min-height: 360rpx;
+}
+.camp-detail-imp-video-el {
+  width: 100%;
+  min-height: 360rpx;
+}
+
+.camp-detail-footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 32rpx calc(24rpx + env(safe-area-inset-bottom)) 32rpx;
+  background: #FFF;
+  border-top: 1rpx solid #F3F4F6;
+}
+.camp-detail-footer-hint {
+  font-size: 28rpx;
+  color: #6A7282;
+}
+.camp-detail-footer-btn {
+  margin: 0;
+  padding: 0 48rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #FFF;
+  background: #101828;
+  border-radius: 28rpx;
+  border: none;
+}

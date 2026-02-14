@@ -1,0 +1,384 @@
+/* 营位详情 - Figma 384px 精确还原 */
+.detail-page {
+  min-height: 100vh; background: #F9FAFB;
+  padding-bottom: calc(180rpx + env(safe-area-inset-bottom));
+}
+
+/* 顶部轮播图 */
+.detail-hero-wrap {
+  position: relative;
+  width: 100%; height: 440rpx;
+  background: #E8D5C4; overflow: hidden;
+}
+.detail-swiper { width: 100%; height: 100%; }
+.detail-hero-img { width: 100%; height: 100%; display: block; }
+
+/* 返回按钮 Figma: 16px 边距, 40×40 */
+.detail-back {
+  position: absolute; left: 32rpx; top: calc(32rpx + env(safe-area-inset-top));
+  z-index: 10;
+  width: 80rpx; height: 80rpx;
+}
+
+/* 主内容区：直接铺在轮播图下方 */
+.detail-card {
+  margin: 0;
+  padding: 48rpx;
+}
+
+/* 卡片顶部区 Figma: gap 16px */
+.detail-card-top { margin-bottom: 32rpx; }
+.detail-meta-row {
+  display: flex; align-items: center; gap: 16rpx;
+  margin-bottom: 16rpx;
+}
+/* 地形标签 Figma: 41×24, #D0FAE5 #006045, 12px 700 uppercase */
+.detail-terrain-tag {
+  padding: 8rpx 16rpx;
+  font-size: 24rpx; font-weight: 700; color: #006045;
+  background: #D0FAE5; border-radius: 999rpx;
+  text-transform: uppercase;
+}
+/* 评分行 Figma: 星14px, 评分14px 700, 评价12px #6A7282, gap 4px */
+.detail-rating-row {
+  display: flex; align-items: center; gap: 8rpx;
+}
+.detail-star { width: 28rpx; height: 28rpx; }
+.detail-rating-num { font-size: 28rpx; font-weight: 700; color: #101828; }
+.detail-review-count { font-size: 24rpx; color: #6A7282; }
+
+/* 标题 Figma: 30px 800, line-height 1.25 */
+.detail-title {
+  font-size: 60rpx; font-weight: 800; color: #101828;
+  display: block; margin-bottom: 16rpx; line-height: 1.25;
+}
+
+/* 营地信息：LOGO + 营地名称 */
+.detail-camp-row {
+  display: flex; align-items: center; gap: 16rpx;
+  margin-bottom: 32rpx;
+}
+.detail-camp-logo {
+  width: 64rpx; height: 64rpx;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.detail-camp-name { font-size: 28rpx; color: #009966; font-weight: 500; flex: 1; }
+.detail-camp-arrow { font-size: 32rpx; color: #9CA3AF; }
+
+/* 价格区 Figma: ¥1800 30px 700 #009966, /天 16px 500 #99A1AF */
+.detail-price-block {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 8rpx;
+}
+.detail-price-wrap { display: flex; align-items: baseline; }
+.detail-price { font-size: 60rpx; font-weight: 700; color: #009966; }
+.detail-price-unit { font-size: 32rpx; font-weight: 500; color: #99A1AF; margin-left: 4rpx; }
+/* 免费取消 Figma: 64×24, #F0FDF4 #00A63E, 12px 500, 8px圆角 */
+.detail-free-cancel {
+  padding: 8rpx 16rpx;
+  font-size: 24rpx; font-weight: 500; color: #00A63E;
+  background: #F0FDF4; border-radius: 16rpx;
+}
+
+/* 区块 Figma: 标题18px 700, gap 12px */
+.detail-section { margin-top: 48rpx; }
+.detail-section-title {
+  font-size: 36rpx; font-weight: 700; color: #101828;
+  display: block; margin-bottom: 24rpx;
+}
+/* 关于此地 - 图文介绍 */
+.detail-content-blocks {
+  display: flex; flex-direction: column; gap: 24rpx;
+}
+.detail-content-text {
+  font-size: 28rpx; color: #4A5565; line-height: 1.625;
+  display: block;
+}
+.detail-content-img {
+  width: 100%; border-radius: 24rpx; display: block;
+}
+
+/* 便利设施 Figma UI: 2列等宽对齐 */
+.detail-facility-grid {
+  display: flex; flex-wrap: wrap; gap: 32rpx; align-items: stretch;
+}
+/* Figma 导出完整卡片图 - 与 item 同尺寸对齐 */
+.detail-facility-card {
+  width: 263rpx; height: 102rpx;
+  flex: 0 0 263rpx;
+  border-radius: 28rpx;
+}
+.detail-facility-item {
+  display: flex; align-items: center; gap: 24rpx;
+  padding-left: 24rpx; width: 263rpx; height: 102rpx;
+  flex: 0 0 263rpx;
+  background: #F9FAFB; border: 1rpx solid #F3F4F6; border-radius: 28rpx;
+  box-sizing: border-box;
+}
+/* Figma: 26×26 白底 10px圆角 阴影 1px 2px -1px / 1px 3px */
+.detail-facility-icon-wrap {
+  width: 52rpx; height: 52rpx; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: #FFF; border-radius: 20rpx;
+  box-shadow: 0 2rpx 4rpx -2rpx rgba(0,0,0,.1), 0 2rpx 6rpx rgba(0,0,0,.1);
+}
+.detail-facility-icon { width: 40rpx; height: 40rpx; }
+.detail-facility-name { font-size: 28rpx; font-weight: 500; color: #364153; }
+
+/* 位置地图 Figma: 192高, 16px圆角 #E5E7EB */
+.detail-map-wrap {
+  position: relative;
+  width: 100%; height: 384rpx;
+  background: #E5E7EB; border-radius: 32rpx;
+  overflow: hidden;
+}
+.detail-map { width: 100%; height: 100%; }
+.detail-map-pin {
+  position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%, -100%);
+  width: 80rpx; height: 80rpx;
+  display: flex; align-items: center; justify-content: center;
+  background: transparent; border-radius: 50%;
+}
+.pin-icon { width: 80rpx; height: 80rpx; }
+
+/* 用户评价 */
+.detail-review-title-row {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 24rpx;
+}
+.detail-review-title-row .detail-section-title { margin-bottom: 0; }
+.detail-review-all-btn {
+  font-size: 28rpx; color: #009966; font-weight: 500;
+}
+.detail-review-list {
+  display: flex; flex-direction: column; gap: 32rpx;
+}
+.detail-review-item {
+  padding: 32rpx;
+  background: #F9FAFB; border: 1rpx solid #F3F4F6;
+  border-radius: 24rpx;
+}
+.detail-review-header {
+  display: flex; align-items: center; gap: 24rpx;
+  margin-bottom: 16rpx;
+}
+.detail-review-avatar {
+  width: 64rpx; height: 64rpx; flex-shrink: 0;
+  border-radius: 50%;
+  background: #009966;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.detail-review-avatar-img {
+  width: 100%; height: 100%;
+}
+.detail-review-avatar-initial {
+  font-size: 28rpx; font-weight: 600; color: #FFF;
+}
+.detail-review-main {
+  flex: 1; min-width: 0;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.detail-review-user {
+  font-size: 28rpx; font-weight: 600; color: #101828;
+}
+.detail-review-meta {
+  display: flex; align-items: center; gap: 8rpx;
+}
+.detail-review-star { width: 24rpx; height: 24rpx; }
+.detail-review-rating {
+  font-size: 24rpx; font-weight: 600; color: #101828;
+}
+.detail-review-date {
+  font-size: 24rpx; color: #9CA3AF;
+}
+.detail-review-imgs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  margin-top: 16rpx;
+}
+.detail-review-img {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 12rpx;
+  background: #F3F4F6;
+}
+.detail-review-content {
+  font-size: 28rpx; color: #4A5565; line-height: 1.5;
+  display: block;
+}
+
+/* 详情页底部栏 */
+.detail-footer {
+  position: fixed; left: 0; right: 0; bottom: 0;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 24rpx 32rpx calc(24rpx + env(safe-area-inset-bottom)) 32rpx;
+  background: #FFF;
+  border-top: 1rpx solid #F3F4F6;
+  box-shadow: 0 -4rpx 12rpx -4rpx rgba(0,0,0,.1), 0 -8rpx 12rpx -2rpx rgba(0,0,0,.1);
+}
+.detail-footer-price {
+  font-size: 36rpx; font-weight: 700; color: #009966;
+}
+.detail-footer-btn {
+  margin: 0; margin-left: auto; padding: 0;
+  width: 240rpx; height: 72rpx;
+  line-height: 72rpx;
+  font-size: 28rpx; font-weight: 700; color: #FFF;
+  background: #101828; border-radius: 28rpx; border: none;
+  box-shadow: 0 4rpx 12rpx -4rpx rgba(0,0,0,.1), 0 8rpx 12rpx -2rpx rgba(0,0,0,.1);
+}
+
+/* Figma 下单弹窗 */
+.order-modal-mask {
+  position: fixed; left: 0; right: 0; top: 0; bottom: 0;
+  background: rgba(0,0,0,.5);
+  z-index: 100;
+}
+.order-modal {
+  position: fixed; left: 0; right: 0; top: 0; bottom: 0;
+  z-index: 101;
+  display: flex; align-items: flex-end; justify-content: center;
+  padding: 0 0 32rpx;
+  pointer-events: none;
+}
+.order-modal-show { pointer-events: auto; }
+.order-modal-content {
+  width: 704rpx; max-height: 85vh;
+  display: flex; flex-direction: column;
+  background: #FFF; border-radius: 48rpx 48rpx 0 0;
+  box-shadow: 0 -50rpx 100rpx -24rpx rgba(0,0,0,.25);
+  overflow: hidden;
+}
+.order-modal-header {
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 48rpx 48rpx 0;
+}
+.order-modal-title {
+  font-size: 40rpx; font-weight: 700; color: #101828;
+}
+.order-modal-close {
+  width: 72rpx; height: 72rpx;
+  display: flex; align-items: center; justify-content: center;
+  background: #F3F4F6; border-radius: 50%;
+  font-size: 48rpx; color: #6A7282; line-height: 1;
+}
+.order-modal-body {
+  flex: 1; min-height: 0;
+  padding: 48rpx;
+  overflow-y: auto;
+}
+.order-modal-field {
+  margin-bottom: 32rpx;
+}
+.order-modal-label {
+  font-size: 24rpx; font-weight: 700; color: #6A7282;
+  text-transform: uppercase; display: block;
+  margin-bottom: 16rpx;
+}
+.order-modal-value-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 32rpx;
+  background: #F9FAFB; border: 1rpx solid #F3F4F6;
+  border-radius: 32rpx;
+}
+.order-modal-value { font-size: 32rpx; font-weight: 500; color: #101828; }
+.order-modal-arrow { font-size: 36rpx; color: #9CA3AF; }
+.order-modal-daterange { font-size: 28rpx; color: #6A7282; margin-top: 8rpx; }
+.order-modal-input {
+  width: 100%; padding: 28rpx;
+  font-size: 28rpx; color: #101828;
+  background: #F9FAFB; border: 1rpx solid #F3F4F6;
+  border-radius: 24rpx; box-sizing: border-box;
+}
+
+/* 图形化日历 */
+.order-modal-calendar {
+  margin: 24rpx 0;
+  padding: 24rpx;
+  background: #F9FAFB; border: 1rpx solid #F3F4F6;
+  border-radius: 24rpx;
+}
+.order-calendar-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 24rpx;
+}
+.order-calendar-nav {
+  width: 56rpx; height: 56rpx;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 36rpx; color: #6A7282;
+}
+.order-calendar-title {
+  font-size: 30rpx; font-weight: 600; color: #101828;
+}
+.order-calendar-weekdays {
+  display: flex; margin-bottom: 16rpx;
+}
+.order-calendar-weekday {
+  flex: 1; text-align: center;
+  font-size: 24rpx; color: #9CA3AF;
+}
+.order-calendar-days {
+  display: flex; flex-wrap: wrap;
+}
+.order-calendar-day {
+  width: 14.28%; height: 72rpx;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26rpx; color: #101828;
+  box-sizing: border-box;
+}
+.order-calendar-day.empty { opacity: 0; pointer-events: none; }
+.order-calendar-day.disabled {
+  color: #D1D5DB; pointer-events: none;
+}
+.order-calendar-day.today {
+  color: #009966; font-weight: 600;
+}
+.order-calendar-day.range {
+  background: rgba(0,153,102,.15); color: #009966;
+}
+.order-calendar-day.start, .order-calendar-day.end {
+  background: #009966; color: #FFF;
+  border-radius: 50%;
+  font-weight: 600;
+}
+.order-modal-stepper {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 32rpx;
+  background: #F9FAFB; border: 1rpx solid #F3F4F6;
+  border-radius: 32rpx;
+}
+.order-modal-stepper-value { font-size: 32rpx; font-weight: 500; color: #101828; }
+.order-modal-stepper-btns { display: flex; gap: 16rpx; align-items: center; }
+.order-modal-btn {
+  width: 64rpx; height: 64rpx;
+  display: flex; align-items: center; justify-content: center;
+  background: #FFF; border-radius: 50%;
+  font-size: 36rpx; font-weight: 700; color: #6A7282;
+  box-shadow: 0 2rpx 8rpx -2rpx rgba(0,0,0,.1), 0 2rpx 12rpx rgba(0,0,0,.1);
+}
+.order-modal-btn.disabled { opacity: .5; }
+.order-modal-divider {
+  height: 1rpx; background: #F3F4F6;
+  margin: 48rpx 0;
+}
+.order-modal-cost { display: flex; flex-direction: column; gap: 24rpx; }
+.order-modal-cost-row {
+  display: flex; justify-content: space-between; align-items: center;
+}
+.order-modal-cost-label { font-size: 32rpx; color: #4A5565; }
+.order-modal-cost-value { font-size: 32rpx; font-weight: 500; color: #101828; }
+.order-modal-cost-total .order-modal-cost-label { font-size: 36rpx; font-weight: 700; color: #101828; }
+.order-modal-cost-total .order-modal-cost-value { font-size: 36rpx; font-weight: 700; }
+.order-modal-submit {
+  flex-shrink: 0;
+  margin: 0 48rpx 48rpx;
+  height: 64rpx; line-height: 64rpx; text-align: center;
+  font-size: 32rpx; font-weight: 700; color: #FFF;
+  background: #009966; border-radius: 28rpx;
+  box-shadow: 0 8rpx 12rpx -8rpx rgba(164,244,207,1), 0 20rpx 30rpx -6rpx rgba(164,244,207,1);
+}

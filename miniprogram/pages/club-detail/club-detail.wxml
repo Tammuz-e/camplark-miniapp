@@ -1,0 +1,57 @@
+<wxs module="utils">
+function truncateTitle(str) {
+  if (!str) return '';
+  return str.length > 10 ? str.substring(0, 10) + '...' : str;
+}
+module.exports.truncateTitle = truncateTitle;
+</wxs>
+<view class="club-detail-page" wx:if="{{club}}">
+  <view class="club-detail-hero">
+    <image class="club-detail-img" src="{{club.img}}" mode="aspectFill" />
+    <image class="club-detail-back" src="/images/icons/back.svg" mode="aspectFit" bindtap="onBack" />
+  </view>
+  <view class="club-detail-info">
+    <text class="club-detail-name">{{utils.truncateTitle(club.clubName)}}</text>
+    <view class="club-detail-meta">
+      <text class="club-detail-members">{{club.members || 0}} 成员</text>
+      <view class="club-detail-tags" wx:if="{{club.tags && club.tags.length}}">
+        <text class="club-detail-tag" wx:for="{{club.tags}}" wx:for-item="tag" wx:key="*this">{{tag}}</text>
+      </view>
+    </view>
+    <text class="club-detail-desc">{{club.desc}}</text>
+    <view class="club-detail-price" wx:if="{{!joined}}">
+      <text class="club-detail-price-value">{{club.price}}</text>
+    </view>
+    <view class="club-detail-actions" wx:if="{{!joined}}">
+      <button class="club-detail-btn club-detail-btn--join" bindtap="onJoin">加入</button>
+    </view>
+  </view>
+
+  <view class="club-detail-section" wx:if="{{experiences.length > 0}}">
+    <text class="club-detail-section-title">活动体验</text>
+    <view class="nearby-card-list">
+      <view class="nearby-card" wx:for="{{experiences}}" wx:key="id">
+        <view class="nearby-card-img-wrap">
+          <image class="nearby-card-img" src="{{item.imgs && item.imgs[0] || '/images/camp-forest.png'}}" mode="aspectFill" />
+          <view class="nearby-card-badge" wx:if="{{item.rating}}">
+            <image src="/images/icons/star.png" class="badge-icon" /><text>{{item.rating}}</text>
+          </view>
+        </view>
+        <view class="nearby-card-info">
+          <text class="nearby-card-name">{{utils.truncateTitle(item.campName)}}</text>
+          <view class="nearby-card-meta" wx:if="{{item.location || item.activityType}}">
+            <image src="/images/icons/location.png" class="meta-icon" /><text>{{item.location || item.activityType}}</text>
+          </view>
+          <view class="nearby-card-footer">
+            <text class="nearby-card-price">{{item.price}}</text>
+            <view class="nearby-card-btn">立即购买</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="club-detail-footer" wx:if="{{joined}}">
+    <view class="club-detail-exit-btn" bindtap="onLeaveClub">退出俱乐部</view>
+  </view>
+</view>

@@ -1,0 +1,259 @@
+.exp-detail-page {
+  min-height: 100vh;
+  background: #F9FAFB;
+  padding-bottom: calc(160rpx + env(safe-area-inset-bottom));
+}
+
+.exp-detail-hero-wrap {
+  position: relative;
+  width: 100%;
+  height: 440rpx;
+  background: #E8D5C4;
+  overflow: hidden;
+}
+.exp-detail-swiper { width: 100%; height: 100%; }
+.exp-detail-hero-img { width: 100%; height: 100%; display: block; }
+.exp-detail-back {
+  position: absolute;
+  left: 32rpx;
+  top: calc(32rpx + env(safe-area-inset-top));
+  z-index: 10;
+  width: 80rpx;
+  height: 80rpx;
+}
+
+.exp-detail-card {
+  margin: 0;
+  padding: 48rpx;
+}
+.exp-detail-top { margin-bottom: 32rpx; }
+.exp-detail-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-bottom: 16rpx;
+}
+.exp-detail-activity-tag {
+  padding: 8rpx 16rpx;
+  font-size: 24rpx;
+  font-weight: 700;
+  color: #006045;
+  background: #D0FAE5;
+  border-radius: 999rpx;
+}
+.exp-detail-rating-row {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+.exp-detail-star { width: 28rpx; height: 28rpx; }
+.exp-detail-rating-num { font-size: 28rpx; font-weight: 700; color: #101828; }
+.exp-detail-title {
+  font-size: 56rpx;
+  font-weight: 800;
+  color: #101828;
+  display: block;
+  margin-bottom: 16rpx;
+}
+.exp-detail-camp-row {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-bottom: 24rpx;
+  padding: 12rpx 0;
+}
+.exp-detail-camp-logo {
+  width: 64rpx; height: 64rpx;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.exp-detail-camp { font-size: 28rpx; color: #009966; font-weight: 500; flex: 1; }
+.exp-detail-arrow { font-size: 32rpx; color: #9CA3AF; }
+.exp-detail-price-block { margin-bottom: 0; }
+.exp-detail-price { font-size: 40rpx; font-weight: 700; color: #009966; }
+
+.exp-detail-section { margin-top: 48rpx; }
+.exp-detail-section-title {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #101828;
+  display: block;
+  margin-bottom: 24rpx;
+}
+/* 体验介绍 - 图文 */
+.exp-detail-content-blocks {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+.exp-detail-content-text {
+  font-size: 28rpx;
+  color: #4A5565;
+  line-height: 1.625;
+  display: block;
+}
+.exp-detail-content-img {
+  width: 100%;
+  border-radius: 24rpx;
+  display: block;
+}
+
+.exp-detail-map-wrap {
+  position: relative;
+  width: 100%;
+  height: 384rpx;
+  background: #E5E7EB;
+  border-radius: 32rpx;
+  overflow: hidden;
+}
+.exp-detail-map { width: 100%; height: 100%; }
+.exp-detail-map-pin {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -100%);
+  width: 80rpx;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.exp-detail-pin-icon { width: 80rpx; height: 80rpx; }
+
+.exp-detail-footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 32rpx calc(24rpx + env(safe-area-inset-bottom)) 32rpx;
+  background: #FFF;
+  border-top: 1rpx solid #F3F4F6;
+}
+.exp-detail-footer-price {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #009966;
+}
+.exp-detail-footer-btn {
+  margin: 0;
+  padding: 0 48rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #FFF;
+  background: #009966;
+  border-radius: 28rpx;
+  border: none;
+}
+
+/* 预订弹窗 */
+.exp-book-modal-mask {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+}
+.exp-book-modal {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 101;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0 0 32rpx;
+  pointer-events: none;
+}
+.exp-book-modal-show { pointer-events: auto; }
+.exp-book-modal-content {
+  width: 704rpx;
+  background: #FFF;
+  border-radius: 48rpx 48rpx 0 0;
+  box-shadow: 0 -50rpx 100rpx -24rpx rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+}
+.exp-book-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 48rpx 48rpx 0;
+}
+.exp-book-modal-title { font-size: 40rpx; font-weight: 700; color: #101828; }
+.exp-book-modal-close {
+  width: 72rpx;
+  height: 72rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #F3F4F6;
+  border-radius: 50%;
+  font-size: 48rpx;
+  color: #6A7282;
+  line-height: 1;
+}
+.exp-book-modal-body { padding: 48rpx; }
+.exp-book-modal-field { margin-bottom: 24rpx; }
+.exp-book-modal-label {
+  font-size: 24rpx;
+  font-weight: 700;
+  color: #6A7282;
+  display: block;
+  margin-bottom: 16rpx;
+}
+.exp-book-modal-stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 32rpx;
+  background: #F9FAFB;
+  border: 1rpx solid #F3F4F6;
+  border-radius: 32rpx;
+}
+.exp-book-modal-stepper-value { font-size: 32rpx; font-weight: 500; color: #101828; }
+.exp-book-modal-stepper-btns { display: flex; gap: 16rpx; }
+.exp-book-modal-btn {
+  width: 64rpx;
+  height: 64rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FFF;
+  border-radius: 50%;
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #6A7282;
+  box-shadow: 0 2rpx 8rpx -2rpx rgba(0, 0, 0, 0.1);
+}
+.exp-book-modal-btn.disabled { opacity: 0.5; }
+.exp-book-modal-divider {
+  height: 1rpx;
+  background: #F3F4F6;
+  margin: 32rpx 0;
+}
+.exp-book-modal-cost-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.exp-book-modal-cost-label { font-size: 32rpx; color: #4A5565; }
+.exp-book-modal-cost-value { font-size: 32rpx; font-weight: 600; color: #101828; }
+.exp-book-modal-submit {
+  margin: 0 48rpx 48rpx;
+  height: 64rpx;
+  line-height: 64rpx;
+  text-align: center;
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #FFF;
+  background: #009966;
+  border-radius: 28rpx;
+}

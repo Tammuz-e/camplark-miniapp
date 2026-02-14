@@ -1,0 +1,131 @@
+<wxs module="utils">
+function formatRating(r) {
+  if (r == null || r === '') return '';
+  if (r == 5 || r === '5') return '5.0';
+  return r;
+}
+function truncateAddr(str, maxLen) {
+  if (!str || maxLen == null) return str || '';
+  var len = 0, i = 0;
+  for (; i < str.length; i++) {
+    var code = str.charCodeAt(i);
+    len += (code >= 19968 && code <= 40959) ? 2 : 1;
+    if (len > maxLen) break;
+  }
+  if (i >= str.length) return str;
+  return str.substring(0, i) + '...';
+}
+function truncateTitle(str) {
+  if (!str) return '';
+  return str.length > 10 ? str.substring(0, 10) + '...' : str;
+}
+module.exports.formatRating = formatRating;
+module.exports.truncateAddr = truncateAddr;
+module.exports.truncateTitle = truncateTitle;
+</wxs>
+<view class="camp-detail-page" wx:if="{{camp}}">
+  <view class="camp-detail-hero-wrap">
+    <swiper class="camp-detail-swiper" indicator-dots="{{true}}" indicator-color="rgba(255,255,255,0.5)" indicator-active-color="#FFF" circular autoplay interval="4000">
+      <swiper-item wx:for="{{camp.imgs}}" wx:key="*this">
+        <image class="camp-detail-hero-img" src="{{item}}" mode="aspectFill" />
+      </swiper-item>
+    </swiper>
+    <image class="camp-detail-back" src="/images/icons/back.svg" mode="aspectFit" bindtap="onBack" />
+  </view>
+
+  <view class="camp-detail-card">
+    <view class="camp-detail-top">
+      <view class="camp-detail-meta-row">
+        <view class="camp-detail-terrain-tag" wx:if="{{camp.terrainType}}">{{camp.terrainType}}</view>
+        <view class="camp-detail-rating-row">
+          <image src="/images/icons/star.svg" class="camp-detail-star" mode="aspectFit" />
+          <text class="camp-detail-rating-num">{{utils.formatRating(camp.rating)}}</text>
+        </view>
+      </view>
+      <text class="camp-detail-title">{{utils.truncateTitle(camp.campName)}}</text>
+      <view class="camp-detail-price-block">
+        <text class="camp-detail-price">{{camp.price}}</text>
+      </view>
+    </view>
+
+    <view class="camp-detail-section" wx:if="{{camp.desc}}">
+      <text class="camp-detail-section-title">关于营地</text>
+      <text class="camp-detail-desc">{{camp.desc}}</text>
+    </view>
+
+    <view class="camp-detail-section" id="spotSection" wx:if="{{spots.length}}">
+      <text class="camp-detail-section-title">营位（{{displayedSpots.length}} 个）</text>
+      <view class="camp-detail-area-tabs" wx:if="{{spotAreas.length > 1}}">
+        <view class="camp-detail-area-tab {{activeArea === item ? 'active' : ''}}" wx:for="{{spotAreas}}" wx:key="*this" data-area="{{item}}" bindtap="onAreaTabTap">{{item}}</view>
+      </view>
+      <scroll-view scroll-x class="camp-detail-list-scroll" enhanced show-scrollbar="{{false}}">
+        <view class="camp-detail-list">
+          <view class="camp-detail-item" wx:for="{{displayedSpots}}" wx:key="id" data-id="{{item.id}}" bindtap="onSpotTap">
+            <image class="camp-detail-item-img" src="{{item.imgs && item.imgs[0] || item.img || '/images/camp-forest.png'}}" mode="aspectFill" />
+            <view class="camp-detail-item-info">
+              <text class="camp-detail-item-name">{{utils.truncateTitle(item.spotName)}}</text>
+              <view class="camp-detail-item-row">
+                <text class="camp-detail-item-price">¥{{item.priceNum}}/天</text>
+                <view class="camp-detail-item-rating">
+                  <image src="/images/icons/star.svg" class="camp-detail-item-star" mode="aspectFit" />
+                  <text>{{utils.formatRating(item.rating)}}</text>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+
+    <view class="camp-detail-section" wx:if="{{experiences.length}}">
+      <text class="camp-detail-section-title">体验活动（{{experiences.length}} 项）</text>
+      <scroll-view scroll-x class="camp-detail-list-scroll" enhanced show-scrollbar="{{false}}">
+        <view class="camp-detail-list">
+          <view class="camp-detail-item" wx:for="{{experiences}}" wx:key="id" data-id="{{item.id}}" bindtap="onExperienceTap">
+            <image class="camp-detail-item-img" src="{{item.imgs && item.imgs[0] || '/images/camp-forest.png'}}" mode="aspectFill" />
+            <view class="camp-detail-item-info">
+              <text class="camp-detail-item-name">{{utils.truncateTitle(item.campName)}}</text>
+              <view class="camp-detail-item-row">
+                <text class="camp-detail-item-price">{{item.price}}</text>
+                <view class="camp-detail-item-rating">
+                  <image src="/images/icons/star.svg" class="camp-detail-item-star" mode="aspectFit" />
+                  <text>{{utils.formatRating(item.rating)}}</text>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+
+    <view class="camp-detail-section" wx:if="{{camp.impressions && camp.impressions.length}}">
+      <text class="camp-detail-section-title">营地印象</text>
+      <view class="camp-detail-impressions">
+        <block wx:for="{{camp.impressions}}" wx:key="index">
+          <view class="camp-detail-imp-item" wx:if="{{item.type === 'image'}}">
+            <image class="camp-detail-imp-img" src="{{item.src}}" mode="widthFix" />
+          </view>
+          <view class="camp-detail-imp-item camp-detail-imp-video" wx:elif="{{item.type === 'video'}}">
+            <video class="camp-detail-imp-video-el" src="{{item.src}}" poster="{{item.poster}}" object-fit="contain" show-center-play-btn controls />
+          </view>
+        </block>
+      </view>
+    </view>
+
+    <view class="camp-detail-section">
+      <text class="camp-detail-section-title">位置</text>
+      <view class="camp-detail-location-block" bindtap="onLocationTap">
+        <image src="/images/icons/location.svg" class="camp-detail-loc-icon" mode="aspectFit" />
+        <view class="camp-detail-location-content">
+          <text class="camp-detail-location-addr">{{camp.location}}</text>
+          <text class="camp-detail-location-nav">点击导航 ›</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="camp-detail-footer" wx:if="{{spots.length}}">
+    <text class="camp-detail-footer-hint">选择营位开始预订</text>
+    <button class="camp-detail-footer-btn" bindtap="onScrollToSpots">查看营位</button>
+  </view>
+</view>

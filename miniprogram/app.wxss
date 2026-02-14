@@ -1,0 +1,5 @@
+page {
+  background-color: #ffffff;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  padding-bottom: 151rpx;  /* 自定义 TabBar 高度，避免内容被遮挡 */
+}

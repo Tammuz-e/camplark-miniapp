@@ -1,0 +1,63 @@
+/* 下单页 */
+.order-page { min-height: 100vh; background: #F9FAFB; padding-bottom: 200rpx; }
+.order-spot-card {
+  display: flex; align-items: stretch;
+  background: #FFF; margin: 24rpx; border-radius: 32rpx;
+  overflow: hidden; box-shadow: 0 2rpx 8rpx rgba(0,0,0,.06);
+}
+.order-spot-img {
+  width: 200rpx; height: 200rpx; flex-shrink: 0; background: #E8D5C4;
+}
+.order-spot-info {
+  flex: 1; padding: 24rpx 28rpx; min-width: 0; display: flex; flex-direction: column; justify-content: space-between;
+}
+.order-spot-name { font-size: 32rpx; font-weight: 700; color: #101828; display: block; margin-bottom: 8rpx; }
+.order-spot-meta { font-size: 24rpx; color: #6A7282; display: flex; align-items: center; gap: 6rpx; margin-bottom: 12rpx; }
+.order-spot-meta .meta-icon { width: 24rpx; height: 24rpx; opacity: .8; }
+.order-spot-price { font-size: 36rpx; font-weight: 700; color: #009966; }
+
+.order-section {
+  background: #FFF; margin: 24rpx; margin-top: 0; border-radius: 32rpx;
+  padding: 32rpx;
+}
+.order-section-title {
+  font-size: 32rpx; font-weight: 700; color: #101828;
+  display: block; margin-bottom: 24rpx;
+}
+.order-form { display: flex; flex-direction: column; gap: 0; }
+.order-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 28rpx 0; border-bottom: 1rpx solid #F3F4F6;
+}
+.order-row:last-child { border-bottom: none; }
+.order-label { font-size: 28rpx; color: #6A7282; }
+.order-value { font-size: 28rpx; color: #101828; font-weight: 500; }
+.order-arrow { font-size: 32rpx; color: #9CA3AF; }
+.order-input {
+  flex: 1;
+  font-size: 28rpx;
+  color: #101828;
+  text-align: right;
+  margin-left: 24rpx;
+}
+
+.order-price-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 20rpx 0;
+}
+.order-price-label { font-size: 28rpx; color: #6A7282; }
+.order-price-value { font-size: 32rpx; font-weight: 700; color: #101828; }
+
+.order-footer {
+  position: fixed; left: 0; right: 0; bottom: 0;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 24rpx 32rpx 48rpx; padding-bottom: calc(48rpx + env(safe-area-inset-bottom));
+  background: #FFF; border-top: 1rpx solid #F3F4F6; box-shadow: 0 -4rpx 12rpx rgba(0,0,0,.06);
+}
+.order-total { display: flex; align-items: baseline; gap: 8rpx; }
+.order-total-label { font-size: 28rpx; color: #6A7282; }
+.order-total-value { font-size: 40rpx; font-weight: 700; color: #009966; }
+.order-submit-btn {
+  padding: 28rpx 56rpx; font-size: 32rpx; font-weight: 500;
+  background: #009966; color: #FFF; border-radius: 24rpx; border: none;
+}

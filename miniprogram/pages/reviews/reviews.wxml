@@ -1,0 +1,47 @@
+<wxs module="utils">
+function formatReviewRating(r) {
+  if (r == null || r === '') return '';
+  var n = parseFloat(r);
+  return isNaN(n) ? '' : n.toFixed(1);
+}
+function getInitial(name) {
+  if (!name || name.length === 0) return '?';
+  return name.substring(0, 1);
+}
+module.exports.formatReviewRating = formatReviewRating;
+module.exports.getInitial = getInitial;
+</wxs>
+<view class="reviews-page">
+  <view class="reviews-topbar">
+    <image class="reviews-back" src="/images/icons/back.svg" mode="aspectFit" bindtap="onBack" />
+  </view>
+  <view class="reviews-header">
+    <text class="reviews-title">全部评价（{{reviews.length}} 条）</text>
+    <text class="reviews-sub">按时间从新到旧</text>
+  </view>
+  <view class="reviews-list">
+    <view class="reviews-item" wx:for="{{reviews}}" wx:key="id">
+      <view class="reviews-item-header">
+        <view class="reviews-avatar">
+          <image wx:if="{{item.avatar}}" src="{{item.avatar}}" class="reviews-avatar-img" mode="aspectFill" />
+          <text wx:else class="reviews-avatar-initial">{{utils.getInitial(item.userName)}}</text>
+        </view>
+        <view class="reviews-main">
+          <text class="reviews-user">{{item.userName}}</text>
+          <view class="reviews-meta">
+            <image src="/images/icons/star.svg" class="reviews-star" mode="aspectFit" />
+            <text class="reviews-rating">{{utils.formatReviewRating(item.rating)}}</text>
+            <text class="reviews-date">{{item.date}}</text>
+          </view>
+        </view>
+      </view>
+      <text class="reviews-content">{{item.content}}</text>
+      <view class="reviews-imgs" wx:if="{{item.imgs && item.imgs.length}}">
+        <image class="reviews-img" src="{{img}}" mode="aspectFill" wx:for="{{item.imgs}}" wx:key="*this" wx:for-item="img" />
+      </view>
+    </view>
+  </view>
+  <view class="reviews-empty" wx:if="{{!reviews.length}}">
+    <text>暂无评价</text>
+  </view>
+</view>

@@ -1,0 +1,66 @@
+<view class="order-page" wx:if="{{spot}}">
+  <view class="order-spot-card">
+    <image class="order-spot-img" src="{{spot.imgs && spot.imgs[0] || spot.img}}" mode="aspectFill" />
+    <view class="order-spot-info">
+      <text class="order-spot-name">{{utils.truncateTitle(spot.campName + ' · ' + spot.spotName)}}</text>
+      <view class="order-spot-meta">
+        <image src="/images/icons/location.png" class="meta-icon" /><text>{{spot.location}}</text>
+      </view>
+      <text class="order-spot-price">{{spot.price || '¥' + (spot.priceNum || 0)}}{{spot.priceUnit || '/天'}}</text>
+    </view>
+  </view>
+
+  <view class="order-section">
+    <text class="order-section-title">预约信息</text>
+    <view class="order-form">
+      <view class="order-row">
+        <text class="order-label">预定人</text>
+        <input class="order-input" placeholder="请输入预定人姓名" value="{{bookerName}}" bindinput="onBookerNameInput" />
+      </view>
+      <view class="order-row">
+        <text class="order-label">联系电话</text>
+        <input class="order-input" type="number" placeholder="请输入联系电话" value="{{contactPhone}}" bindinput="onContactPhoneInput" />
+      </view>
+      <view class="order-row" bindtap="onCheckInTap">
+        <text class="order-label">入住日期</text>
+        <text class="order-value">{{checkIn}}</text>
+        <text class="order-arrow">›</text>
+      </view>
+      <view class="order-row" bindtap="onCheckOutTap">
+        <text class="order-label">退房日期</text>
+        <text class="order-value">{{checkOut}}</text>
+        <text class="order-arrow">›</text>
+      </view>
+      <view class="order-row">
+        <text class="order-label">入住人数</text>
+        <picker mode="selector" range="{{[1,2,3,4,5,6,7,8,9,10]}}" value="{{guests - 1}}" bindchange="onGuestsChange">
+          <text class="order-value">{{guests}}人</text>
+        </picker>
+        <text class="order-arrow">›</text>
+      </view>
+      <view class="order-row">
+        <text class="order-label">入住天数</text>
+        <picker mode="selector" range="{{[1,2,3,4,5,6,7]}}" value="{{nights - 1}}" bindchange="onNightsChange">
+          <text class="order-value">{{nights}}晚</text>
+        </picker>
+        <text class="order-arrow">›</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="order-section">
+    <text class="order-section-title">费用明细</text>
+    <view class="order-price-row">
+      <text class="order-price-label">营位费 (¥{{spot.priceNum || 0}}/天 × {{nights}}晚)</text>
+      <text class="order-price-value">¥{{totalPrice}}</text>
+    </view>
+  </view>
+
+  <view class="order-footer">
+    <view class="order-total">
+      <text class="order-total-label">合计</text>
+      <text class="order-total-value">¥{{totalPrice}}</text>
+    </view>
+    <button class="order-submit-btn" bindtap="onSubmit">提交订单</button>
+  </view>
+</view>

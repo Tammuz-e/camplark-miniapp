@@ -1,0 +1,65 @@
+<view class="club-page">
+  <view class="club-body">
+    <view class="club-hero">
+      <view class="club-hero-row">
+        <text class="page-title">俱乐部</text>
+        <view class="club-create-btn" bindtap="onCreateClub">成立俱乐部</view>
+      </view>
+      <text class="page-desc">加入兴趣社群，结识同好</text>
+    </view>
+
+    <view class="club-section" wx:if="{{myClubs.length > 0}}">
+      <text class="club-section-title">我的俱乐部</text>
+      <view class="club-list">
+        <view class="club-card-wrap" wx:for="{{myClubs}}" wx:key="id" catchtap="onClubTap" data-id="{{item.id}}" hover-class="club-card-hover" hover-stay-time="100">
+          <view class="club-card">
+            <view class="club-card-img-wrap">
+              <image class="club-card-img" src="{{item.img}}" mode="aspectFill" />
+            </view>
+            <view class="club-card-info">
+              <text class="club-card-name">{{item.clubName}}</text>
+              <view class="club-card-meta">
+                <text class="club-card-members">{{item.members || 0}} 成员</text>
+                <view class="club-tags" wx:if="{{item.tags && item.tags.length}}">
+                  <text class="club-tag" wx:for="{{item.tags}}" wx:for-item="tag" wx:key="*this">{{tag}}</text>
+                </view>
+              </view>
+              <text class="club-card-desc">{{item.desc}}</text>
+            <view class="club-card-footer">
+              <view class="club-enter-btn" catchtap="onClubTap" data-id="{{item.id}}">进入</view>
+            </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="club-section">
+      <text class="club-section-title">俱乐部推荐</text>
+      <view class="club-list">
+        <view class="club-card-wrap" wx:for="{{recommendedClubs}}" wx:key="id" catchtap="onClubTap" data-id="{{item.id}}" hover-class="club-card-hover" hover-stay-time="100">
+          <view class="club-card">
+            <view class="club-card-img-wrap">
+              <image class="club-card-img" src="{{item.img}}" mode="aspectFill" />
+            </view>
+            <view class="club-card-info">
+              <text class="club-card-name">{{item.clubName}}</text>
+              <view class="club-card-meta">
+                <text class="club-card-members">{{item.members || 0}} 成员</text>
+                <view class="club-tags" wx:if="{{item.tags && item.tags.length}}">
+                  <text class="club-tag" wx:for="{{item.tags}}" wx:for-item="tag" wx:key="*this">{{tag}}</text>
+                </view>
+              </view>
+              <text class="club-card-desc">{{item.desc}}</text>
+            <view class="club-card-footer">
+              <text class="club-card-price">{{item.price}}</text>
+              <view class="club-join-btn" catchtap="onClubTap" data-id="{{item.id}}">加入</view>
+            </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <custom-tab-bar />
+</view>

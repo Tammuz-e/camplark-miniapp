@@ -1,0 +1,42 @@
+/* Figma Navigation 100% - 376x75.55, padding 24px, icon 24px, text 10px */
+.tab-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 151rpx;
+  padding: 0 48rpx;
+  box-sizing: border-box;
+  background: #FFFFFF;
+  border-top: 1rpx solid #F3F4F6;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.tab-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+}
+
+.tab-icon {
+  width: 48rpx;
+  height: 48rpx;
+}
+
+.tab-text {
+  font-size: 20rpx;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  color: #99A1AF;
+}
+
+.tab-item--active .tab-text {
+  color: #009966;
+}

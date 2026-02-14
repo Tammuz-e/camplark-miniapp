@@ -1,0 +1,13 @@
+<!-- Figma: 高度 75.55px, padding 0 24px, 顶边 #F3F4F6, 图标 24x24, 文字 10px Inter 500 -->
+<view class="tab-bar">
+  <block wx:for="{{list}}" wx:key="pagePath">
+    <view 
+      class="tab-item {{selected === index ? 'tab-item--active' : ''}}" 
+      bindtap="switchTab" 
+      data-index="{{index}}"
+    >
+      <image class="tab-icon" src="{{selected === index ? item.selectedIconPath : item.iconPath}}" mode="aspectFit" />
+      <text class="tab-text">{{item.text}}</text>
+    </view>
+  </block>
+</view>

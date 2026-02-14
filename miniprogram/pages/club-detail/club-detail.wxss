@@ -1,0 +1,84 @@
+/* 俱乐部详情页 */
+.club-detail-page { min-height: 100vh; background: #F9FAFB; padding-bottom: 48rpx; }
+.club-detail-hero {
+  position: relative;
+  width: 100%; height: 420rpx; background: #E8D5C4; overflow: hidden;
+}
+.club-detail-img { width: 100%; height: 100%; display: block; }
+.club-detail-back {
+  position: absolute;
+  left: 32rpx;
+  top: calc(32rpx + env(safe-area-inset-top));
+  z-index: 10;
+  width: 80rpx;
+  height: 80rpx;
+}
+
+.club-detail-info {
+  padding: 32rpx; background: #FFF; margin: 24rpx; border-radius: 32rpx;
+}
+.club-detail-name {
+  font-size: 40rpx; font-weight: 700; color: #101828;
+  display: block; margin-bottom: 16rpx;
+}
+.club-detail-meta {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 12rpx;
+  margin-bottom: 16rpx; font-size: 28rpx; color: #6A7282;
+}
+.club-detail-tags { display: flex; flex-wrap: wrap; gap: 8rpx; }
+.club-detail-tag {
+  font-size: 22rpx; padding: 4rpx 12rpx;
+  background: #E8F5E9; color: #009966; border-radius: 8rpx;
+}
+.club-detail-desc {
+  font-size: 28rpx; color: #6A7282; line-height: 1.5;
+  display: block; margin-bottom: 24rpx;
+}
+.club-detail-price { margin-bottom: 32rpx; }
+.club-detail-price-value { font-size: 44rpx; font-weight: 700; color: #009966; }
+
+.club-detail-actions { margin-top: 8rpx; }
+.club-detail-btn {
+  width: 100%; padding: 28rpx; font-size: 32rpx; font-weight: 500;
+  border-radius: 24rpx; border: none; text-align: center;
+}
+.club-detail-btn--join {
+  background: #009966; color: #FFF;
+  padding: 20rpx 28rpx;
+}
+
+/* 活动体验模块 */
+.club-detail-section { margin: 24rpx; background: #FFF; border-radius: 32rpx; padding: 32rpx; }
+.club-detail-section-title {
+  font-size: 34rpx; font-weight: 700; color: #101828;
+  display: block; margin-bottom: 24rpx;
+}
+.nearby-card-list { display: flex; flex-direction: column; gap: 32rpx; }
+.nearby-card {
+  position: relative; display: flex; align-items: stretch;
+  height: 242rpx; background: #FFF; border-radius: 32rpx; border: 1rpx solid #F3F4F6;
+  overflow: hidden; box-shadow: 0 2rpx 4rpx -2rpx rgba(0,0,0,.1), 0 2rpx 6rpx rgba(0,0,0,.1);
+}
+.nearby-card-img-wrap { position: relative; width: 192rpx; height: 192rpx; flex-shrink: 0; margin: 25rpx; border-radius: 24rpx; overflow: hidden; }
+.nearby-card-badge {
+  position: absolute; right: 12rpx; bottom: 12rpx;
+  display: flex; align-items: center; gap: 6rpx;
+  padding: 6rpx 12rpx; border-radius: 999rpx;
+  background: rgba(243,244,246,0.95); font-size: 24rpx; font-weight: 600; color: #101828;
+}
+.nearby-card-badge .badge-icon { width: 24rpx; height: 24rpx; }
+.nearby-card-img { width: 100%; height: 100%; background: #E8D5C4; }
+.nearby-card-info { flex: 1; padding: 25rpx 25rpx 25rpx 0; display: flex; flex-direction: column; justify-content: space-between; min-width: 0; }
+.nearby-card-name { font-size: 32rpx; font-weight: 700; color: #101828; margin-bottom: 8rpx; }
+.nearby-card-meta { font-size: 24rpx; color: #6A7282; display: flex; align-items: center; gap: 8rpx; margin-bottom: 12rpx; }
+.nearby-card-meta .meta-icon { width: 28rpx; height: 28rpx; opacity: .8; }
+.nearby-card-footer { display: flex; justify-content: space-between; align-items: center; }
+.nearby-card-price { font-size: 36rpx; font-weight: 700; color: #009966; }
+.nearby-card-btn { padding: 12rpx 24rpx; background: #101828; color: #FFF; font-size: 24rpx; font-weight: 500; border-radius: 20rpx; }
+
+/* 底部退出按钮 */
+.club-detail-footer { padding: 48rpx 32rpx 80rpx; }
+.club-detail-exit-btn {
+  padding: 24rpx; font-size: 28rpx; color: #E53935;
+  text-align: center; border: 1rpx solid #E53935; border-radius: 24rpx;
+}

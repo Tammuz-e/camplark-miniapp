@@ -1,0 +1,47 @@
+<wxs module="utils">
+function formatReviewRating(r) {
+  if (r == null || r === '') return '';
+  var n = parseFloat(r);
+  return isNaN(n) ? '' : n.toFixed(1);
+}
+function truncateTitle(str) {
+  if (!str) return '';
+  return str.length > 10 ? str.substring(0, 10) + '...' : str;
+}
+module.exports.formatReviewRating = formatReviewRating;
+module.exports.truncateTitle = truncateTitle;
+</wxs>
+<view class="my-reviews-page">
+  <view class="my-reviews-topbar">
+    <image class="my-reviews-back" src="/images/icons/back.svg" mode="aspectFit" bindtap="onBack" />
+  </view>
+  <view class="my-reviews-body">
+    <view class="my-reviews-header">
+      <text class="my-reviews-title">近1年我的评价（{{reviews.length}} 条）</text>
+      <text class="my-reviews-sub">按时间从新到旧</text>
+    </view>
+    <view class="my-reviews-list" wx:if="{{reviews.length}}">
+      <view class="my-reviews-item" wx:for="{{reviews}}" wx:key="id" data-spot-id="{{item.spotId}}" bindtap="onItemTap">
+        <view class="my-reviews-spot">
+          <text class="my-reviews-spot-name">{{utils.truncateTitle(item.campName + (item.spotName ? ' · ' + item.spotName : ''))}}</text>
+          <text class="my-reviews-date">{{item.date}}</text>
+        </view>
+        <view class="my-reviews-meta">
+          <view class="my-reviews-stars">
+            <image src="/images/icons/star.svg" class="my-reviews-star" mode="aspectFit" />
+            <text class="my-reviews-rating">{{utils.formatReviewRating(item.rating)}}分</text>
+          </view>
+        </view>
+        <text class="my-reviews-content">{{item.content}}</text>
+        <view class="my-reviews-imgs" wx:if="{{item.imgs && item.imgs.length}}">
+          <image class="my-reviews-img" src="{{img}}" mode="aspectFill" wx:for="{{item.imgs}}" wx:key="*this" wx:for-item="img" />
+        </view>
+      </view>
+    </view>
+    <view class="my-reviews-empty" wx:else>
+      <view class="my-reviews-empty-icon"></view>
+      <text class="my-reviews-empty-title">暂无评价</text>
+      <text class="my-reviews-empty-desc">完成订单后可对营位进行评价</text>
+    </view>
+  </view>
+</view>

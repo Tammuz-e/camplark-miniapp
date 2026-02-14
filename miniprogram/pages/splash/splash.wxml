@@ -1,0 +1,4 @@
+<view class="splash-page">
+  <view class="splash-skip" bindtap="onSkipTap">跳过({{countdown}}s)</view>
+  <text class="splash-text">想露营找嘢营</text>
+</view>

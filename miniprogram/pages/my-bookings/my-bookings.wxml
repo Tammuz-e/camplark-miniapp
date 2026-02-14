@@ -1,0 +1,55 @@
+<view class="my-bookings-page">
+  <view class="my-bookings-topbar">
+    <image class="my-bookings-back" src="/images/icons/back.svg" mode="aspectFit" bindtap="onBack" />
+  </view>
+  <view class="my-bookings-body">
+    <view class="status-tabs">
+      <view class="status-tab {{activeStatus === item ? 'active' : ''}}" wx:for="{{statusTabs}}" wx:key="*this" data-status="{{item}}" bindtap="onStatusTabTap">{{item}}</view>
+    </view>
+
+    <view class="order-list" wx:if="{{orderList.length}}">
+      <view class="order-card" wx:for="{{orderList}}" wx:key="id">
+        <view class="order-card-main" data-id="{{item.id}}" bindtap="onOrderTap">
+          <view class="order-card-header">
+            <text class="order-no">订单号 {{item.orderNo}}</text>
+            <view class="order-status order-status--{{item.statusClass}}">{{item.status}}</view>
+          </view>
+          <view class="order-card-body">
+            <image class="order-img" src="{{item.img}}" mode="aspectFill" />
+            <view class="order-info">
+              <text class="order-title">{{utils.truncateTitle(item.campName + ' · ' + item.spotName)}}</text>
+              <view class="order-meta">
+                <text class="order-dates">{{item.checkIn}} 至 {{item.checkOut}}</text>
+              </view>
+              <view class="order-meta">
+                <text>{{item.nights}}天 · {{item.guests}}人</text>
+              </view>
+              <text class="order-price">¥{{item.totalPrice}}</text>
+            </view>
+          </view>
+        </view>
+        <view class="order-card-review" wx:if="{{item.status === '已完成'}}">
+          <view class="order-review-btn" wx:if="{{!item.review}}" catchtap="onReviewTap" data-id="{{item.id}}">评价</view>
+          <view class="order-review-block" wx:else>
+            <view class="order-review-block-header">
+              <text class="order-review-block-user">{{item.review.userName}}</text>
+              <text class="order-review-block-rating">{{item.review.rating}}分</text>
+              <text class="order-review-block-date">{{item.review.date}}</text>
+            </view>
+            <text class="order-review-block-content">{{item.review.content}}</text>
+            <view class="order-review-block-imgs" wx:if="{{item.review.imgs && item.review.imgs.length}}">
+              <image class="order-review-block-img" src="{{img}}" mode="aspectFill" wx:for="{{item.review.imgs}}" wx:key="*this" wx:for-item="img" />
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="empty-state" wx:else>
+      <view class="empty-icon"></view>
+      <text class="empty-title">暂无{{activeStatus}}订单</text>
+      <text class="empty-desc">去探索页预订心仪营位吧</text>
+      <view class="empty-btn" bindtap="goExplore">去探索</view>
+    </view>
+  </view>
+</view>

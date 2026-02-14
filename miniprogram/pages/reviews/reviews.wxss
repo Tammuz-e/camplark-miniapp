@@ -1,0 +1,111 @@
+.reviews-page {
+  min-height: 100vh;
+  background: #F9FAFB;
+}
+.reviews-topbar {
+  display: flex; align-items: center; padding: 24rpx 32rpx;
+  padding-top: calc(24rpx + env(safe-area-inset-top));
+  background: #F9FAFB; border-bottom: 1rpx solid #F3F4F6;
+}
+.reviews-back { width: 64rpx; height: 64rpx; }
+.reviews-header {
+  margin-bottom: 32rpx;
+  padding: 0 48rpx;
+}
+.reviews-title {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #101828;
+  display: block;
+  margin-bottom: 8rpx;
+}
+.reviews-sub {
+  font-size: 24rpx;
+  color: #6A7282;
+}
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 32rpx;
+  padding: 0 48rpx;
+}
+.reviews-item {
+  padding: 32rpx;
+  background: #FFF;
+  border: 1rpx solid #F3F4F6;
+  border-radius: 24rpx;
+}
+.reviews-item-header {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  margin-bottom: 16rpx;
+}
+.reviews-avatar {
+  width: 64rpx;
+  height: 64rpx;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #009966;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.reviews-avatar-img { width: 100%; height: 100%; }
+.reviews-avatar-initial {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #FFF;
+}
+.reviews-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+.reviews-user {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #101828;
+}
+.reviews-meta {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+.reviews-star { width: 24rpx; height: 24rpx; }
+.reviews-rating {
+  font-size: 24rpx;
+  font-weight: 600;
+  color: #101828;
+}
+.reviews-date {
+  font-size: 24rpx;
+  color: #9CA3AF;
+}
+.reviews-content {
+  font-size: 28rpx;
+  color: #4A5565;
+  line-height: 1.5;
+  display: block;
+}
+.reviews-imgs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  margin-top: 16rpx;
+}
+.reviews-img {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 12rpx;
+  background: #F3F4F6;
+}
+.reviews-empty {
+  padding: 80rpx 48rpx;
+  text-align: center;
+  font-size: 28rpx;
+  color: #9CA3AF;
+}

@@ -1,0 +1,30 @@
+.splash-page {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #009966;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48rpx;
+  box-sizing: border-box;
+  padding-top: calc(48rpx + env(safe-area-inset-top));
+  padding-bottom: calc(48rpx + env(safe-area-inset-bottom));
+}
+.splash-skip {
+  position: fixed;
+  left: 32rpx;
+  top: calc(120rpx + env(safe-area-inset-top));
+  font-size: 28rpx;
+  color: #FFF;
+  opacity: 0.9;
+  padding: 16rpx 24rpx;
+}
+.splash-text {
+  font-size: 56rpx;
+  font-weight: 700;
+  color: #FFF;
+  text-align: center;
+  letter-spacing: 4rpx;
+  margin-bottom: 120rpx;
+}

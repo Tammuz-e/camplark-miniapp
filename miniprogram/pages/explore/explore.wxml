@@ -1,0 +1,392 @@
+<!-- Figma 探索页 100% - 卡片 328x121, 图左 96x96 -->
+<wxs module="utils">
+function isFav(ids, id) {
+  if (!ids || id == null) return false;
+  for (var i = 0; i < ids.length; i++) {
+    if (ids[i] == id) return true;
+  }
+  return false;
+}
+function isFavForItem(item, campIds, spotIds, serviceIds) {
+  if (!item) return false;
+  var ids = item._type === 'spot' ? spotIds : (item._type === 'service' ? serviceIds : campIds);
+  return isFav(ids, item.id);
+}
+function formatDist(m) {
+  if (m == null || m < 0) return '';
+  if (m < 1000) return m + 'm';
+  var km = (m / 1000).toFixed(1);
+  if (km.indexOf('.0') === km.length - 2) km = parseInt(m / 1000) + '';
+  return km + 'km';
+}
+function truncate(str, maxLen) {
+  if (!str) return '';
+  var len = 0;
+  var i = 0;
+  for (; i < str.length; i++) {
+    var code = str.charCodeAt(i);
+    len += (code >= 19968 && code <= 40959) ? 2 : 1;
+    if (len > maxLen) break;
+  }
+  if (i >= str.length) return str;
+  return str.substring(0, i) + '...';
+}
+function formatRating(r) {
+  if (r == null || r === '') return '';
+  if (r == 5 || r === '5') return '5.0';
+  return r;
+}
+function hasAmenity(arr, name) {
+  if (!arr || !name) return false;
+  for (var i = 0; i < arr.length; i++) { if (arr[i] === name) return true; }
+  return false;
+}
+module.exports.formatDist = formatDist;
+module.exports.truncate = truncate;
+module.exports.hasAmenity = hasAmenity;
+module.exports.isFav = isFav;
+module.exports.isFavForItem = isFavForItem;
+module.exports.formatRating = formatRating;
+</wxs>
+<view class="explore-page {{viewMode === 'map' ? 'explore-page--map' : ''}}">
+  <view class="explore-map-wrap explore-map-wrap--fullscreen" wx:if="{{viewMode === 'map'}}">
+    <map
+      id="exploreMap"
+      class="explore-map"
+      latitude="{{mapCenter.latitude}}"
+      longitude="{{mapCenter.longitude}}"
+      scale="{{mapScale}}"
+      markers="{{mapMarkers}}"
+      bindmarkertap="onMarkerTap"
+      show-location
+    />
+    <view class="map-overlay">
+      <view class="map-header">
+        <text class="page-title">探索</text>
+        <view class="view-toggle">
+          <view class="toggle-btn {{viewMode === 'list' ? 'toggle-btn--active' : ''}}" data-mode="list" bindtap="onViewModeTap">列表</view>
+          <view class="toggle-btn {{viewMode === 'map' ? 'toggle-btn--active' : ''}}" data-mode="map" bindtap="onViewModeTap">地图</view>
+        </view>
+      </view>
+      <text class="map-hint">点击标记查看营地详情</text>
+    </view>
+    <view class="map-locate-btn" bindtap="onLocateTap">
+      <image src="/images/icons/location.png" class="locate-icon" mode="aspectFit" />
+      <text>定位</text>
+    </view>
+    <view class="map-camp-panel" wx:if="{{selectedCamp}}" catchtap="onCloseCampPanel">
+      <view class="map-camp-card" catchtap="onCampCardTap">
+        <view class="map-camp-close" catchtap="onCloseCampPanel">×</view>
+        <view class="map-camp-content">
+          <view class="map-camp-img-wrap">
+            <view class="home-card-type-tag"> {{selectedCamp._type === 'spot' ? '营位' : (selectedCamp._type === 'service' ? '体验' : '营地')}} </view>
+            <image class="map-camp-img" src="{{selectedCamp.imgs && selectedCamp.imgs[0] ? selectedCamp.imgs[0] : '/images/camp-forest.png'}}" mode="aspectFill" />
+          </view>
+          <view class="map-camp-info">
+            <text class="map-camp-name">{{selectedCamp.campName}}</text>
+            <view class="map-camp-meta">
+              <image src="/images/icons/location.png" class="meta-icon" /><text>{{utils.truncate(selectedCamp.location, 25)}}</text>
+            </view>
+            <view class="map-camp-row">
+              <text class="map-camp-price">{{selectedCamp.price}}</text>
+              <view class="map-camp-rating"><image src="/images/icons/star.png" class="badge-icon" /><text>{{utils.formatRating(selectedCamp.rating)}}</text></view>
+            </view>
+            <view class="map-camp-btn" bindtap="onCampDetail">查看详情</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="explore-body" wx:if="{{viewMode === 'list'}}">
+    <view class="header">
+      <text class="page-title">探索</text>
+      <view class="view-toggle">
+        <view class="toggle-btn {{viewMode === 'list' ? 'toggle-btn--active' : ''}}" data-mode="list" bindtap="onViewModeTap">列表</view>
+        <view class="toggle-btn {{viewMode === 'map' ? 'toggle-btn--active' : ''}}" data-mode="map" bindtap="onViewModeTap">地图</view>
+      </view>
+    </view>
+
+    <view class="search-bar">
+      <view class="search-icon-left" bindtap="onSearchTap">
+        <image class="search-icon" src="/images/icons/search.png" mode="aspectFit" />
+      </view>
+      <view class="search-inner" bindtap="onSearchTap">
+        <text class="search-placeholder">搜索目的地...</text>
+      </view>
+      <view class="search-icon-wrap" bindtap="onFilterTap">
+        <image class="search-icon filter-icon" src="/images/icons/filter-icon.png" mode="aspectFit" />
+      </view>
+    </view>
+
+    <view class="filter-mask" wx:if="{{showFilter}}" catchtap="onCloseFilter"></view>
+    <view class="filter-popup {{showFilter ? 'filter-popup--show' : ''}}" wx:if="{{showFilter}}">
+      <view class="filter-popup-body">
+        <view class="filter-header">
+          <text class="filter-title">筛选</text>
+          <view class="filter-close" bindtap="onCloseFilter">×</view>
+        </view>
+        <!-- 1. 探索类型 -->
+        <view class="filter-section">
+          <text class="filter-section-title">探索类型</text>
+          <view class="filter-fav-list">
+            <view class="filter-fav-item {{filterExploreType === '营位' ? 'filter-fav-item--active' : ''}}" data-type="营位" bindtap="onFilterExploreTypeTap">
+              <text class="filter-fav-title">营位</text>
+              <text class="filter-fav-desc">帐篷、房车等营位预订</text>
+            </view>
+            <view class="filter-fav-item {{filterExploreType === '体验' ? 'filter-fav-item--active' : ''}}" data-type="体验" bindtap="onFilterExploreTypeTap">
+              <text class="filter-fav-title">体验</text>
+              <text class="filter-fav-desc">徒步、钓鱼等活动体验</text>
+            </view>
+            <view class="filter-fav-item {{filterExploreType === '营地' ? 'filter-fav-item--active' : ''}}" data-type="营地" bindtap="onFilterExploreTypeTap">
+              <text class="filter-fav-title">营地</text>
+              <text class="filter-fav-desc">完整营地空间</text>
+            </view>
+          </view>
+        </view>
+        <view class="filter-divider"></view>
+        <!-- 2. 露营风格 -->
+        <view class="filter-section">
+          <text class="filter-section-title">露营风格</text>
+          <view class="filter-accom-list">
+            <view class="filter-accom-item {{filterAccom === 'tent' ? 'filter-accom-item--active' : ''}}" data-type="tent" bindtap="onFilterAccomTap">
+              <image class="filter-accom-icon" src="/images/icons/filter-tent.svg" mode="aspectFit" />
+              <view class="filter-accom-info">
+                <text class="filter-accom-title">帐篷</text>
+                <text class="filter-accom-desc">自带帐篷</text>
+              </view>
+            </view>
+            <view class="filter-accom-item {{filterAccom === 'rv' ? 'filter-accom-item--active' : ''}}" data-type="rv" bindtap="onFilterAccomTap">
+              <image class="filter-accom-icon" src="/images/icons/filter-rv.svg" mode="aspectFit" />
+              <view class="filter-accom-info">
+                <text class="filter-accom-title">房车</text>
+                <text class="filter-accom-desc">房车营位</text>
+              </view>
+            </view>
+            <view class="filter-accom-item {{filterAccom === 'glamp' ? 'filter-accom-item--active' : ''}}" data-type="glamp" bindtap="onFilterAccomTap">
+              <image class="filter-accom-icon" src="/images/icons/filter-glamp.svg" mode="aspectFit" />
+              <view class="filter-accom-info">
+                <text class="filter-accom-title">豪华露营</text>
+                <text class="filter-accom-desc">木屋或豪华帐篷</text>
+              </view>
+            </view>
+          </view>
+        </view>
+        <view class="filter-divider"></view>
+        <!-- 3. 价格区间 - 双滑块单条线 -->
+        <view class="filter-section">
+          <text class="filter-section-title">价格区间</text>
+          <view class="filter-price-wrap">
+            <view class="range-slider" catchtouchstart="onRangeTouchStart" catchtouchmove="onRangeTouchMove" bindtouchend="onRangeTouchEnd" bindtouchcancel="onRangeTouchEnd">
+              <view class="range-track-inner" id="rangeTrack">
+                <view class="range-track-bg"></view>
+                <view class="range-track-fill" style="left: {{filterPriceMin/20}}%; width: {{(filterPriceMax-filterPriceMin)/20}}%;"></view>
+                <view class="range-handle range-handle-min" style="left: {{filterPriceMin/20}}%;"></view>
+                <view class="range-handle range-handle-max" style="left: {{filterPriceMax/20}}%;"></view>
+              </view>
+            </view>
+            <view class="filter-price-labels">
+              <text>¥{{filterPriceMin}}</text>
+              <text>¥{{filterPriceMax}}+</text>
+            </view>
+          </view>
+        </view>
+        <view class="filter-divider"></view>
+        <!-- 4. 入营人数 -->
+        <view class="filter-section">
+          <text class="filter-section-title">入营人数</text>
+          <view class="filter-guest-row">
+            <text class="filter-guest-label">人数</text>
+            <view class="filter-guest-stepper">
+              <view class="filter-guest-btn" bindtap="onGuestMinus">−</view>
+              <text class="filter-guest-value">{{filterGuestCount}}</text>
+              <view class="filter-guest-btn" bindtap="onGuestPlus">+</view>
+            </view>
+          </view>
+        </view>
+        <view class="filter-divider"></view>
+        <!-- 5. 露营者最爱 -->
+        <view class="filter-section">
+          <text class="filter-section-title">露营者最爱</text>
+          <view class="filter-fav-list">
+            <view class="filter-fav-item {{utils.hasAmenity(filterFavorites, '明星主持人') ? 'filter-fav-item--active' : ''}}" data-name="明星主持人" bindtap="onFilterFavoriteTap">
+              <text class="filter-fav-title">明星主持人</text>
+              <text class="filter-fav-desc">拥有高评价且尽职尽责的营地主人</text>
+            </view>
+            <view class="filter-fav-item {{utils.hasAmenity(filterFavorites, '完全属于你自己') ? 'filter-fav-item--active' : ''}}" data-name="完全属于你自己" bindtap="onFilterFavoriteTap">
+              <text class="filter-fav-title">完全属于你自己</text>
+              <text class="filter-fav-desc">根据用户评价，这里拥有极佳的隐私性。</text>
+            </view>
+            <view class="filter-fav-item {{utils.hasAmenity(filterFavorites, '适合家庭') ? 'filter-fav-item--active' : ''}}" data-name="适合家庭" bindtap="onFilterFavoriteTap">
+              <text class="filter-fav-title">适合家庭</text>
+              <text class="filter-fav-desc">大多数用户表示，这些营地非常适合家庭和孩子。</text>
+            </view>
+            <view class="filter-fav-item {{utils.hasAmenity(filterFavorites, '非常适合团体活动') ? 'filter-fav-item--active' : ''}}" data-name="非常适合团体活动" bindtap="onFilterFavoriteTap">
+              <text class="filter-fav-title">非常适合团体活动</text>
+              <text class="filter-fav-desc">大多数用户表示，这些营地非常适合团体露营。</text>
+            </view>
+          </view>
+        </view>
+        <view class="filter-divider"></view>
+        <!-- 6. 便利设施 -->
+        <view class="filter-section">
+          <text class="filter-section-title">便利设施</text>
+          <view class="filter-amenity-list">
+            <view class="filter-amenity-item {{utils.hasAmenity(filterAmenities, '篝火') ? 'filter-amenity-item--active' : ''}}" data-name="篝火" bindtap="onFilterAmenityTap">
+              <view class="filter-amenity-check"></view>
+              <text class="filter-amenity-text">篝火</text>
+            </view>
+            <view class="filter-amenity-item {{utils.hasAmenity(filterAmenities, '无线网络') ? 'filter-amenity-item--active' : ''}}" data-name="无线网络" bindtap="onFilterAmenityTap">
+              <view class="filter-amenity-check"></view>
+              <text class="filter-amenity-text">无线网络</text>
+            </view>
+            <view class="filter-amenity-item {{utils.hasAmenity(filterAmenities, '电源接入') ? 'filter-amenity-item--active' : ''}}" data-name="电源接入" bindtap="onFilterAmenityTap">
+              <view class="filter-amenity-check"></view>
+              <text class="filter-amenity-text">电源接入</text>
+            </view>
+            <view class="filter-amenity-item {{utils.hasAmenity(filterAmenities, '淋浴') ? 'filter-amenity-item--active' : ''}}" data-name="淋浴" bindtap="onFilterAmenityTap">
+              <view class="filter-amenity-check"></view>
+              <text class="filter-amenity-text">淋浴</text>
+            </view>
+            <view class="filter-amenity-item {{utils.hasAmenity(filterAmenities, '饮用水') ? 'filter-amenity-item--active' : ''}}" data-name="饮用水" bindtap="onFilterAmenityTap">
+              <view class="filter-amenity-check"></view>
+              <text class="filter-amenity-text">饮用水</text>
+            </view>
+          </view>
+        </view>
+        <view class="filter-divider"></view>
+        <!-- 7. 活动体验 -->
+        <view class="filter-section">
+          <text class="filter-section-title">活动体验</text>
+          <view class="filter-amenity-list">
+            <view class="filter-amenity-item {{utils.hasAmenity(filterActivities, '徒步') ? 'filter-amenity-item--active' : ''}}" data-name="徒步" data-type="activity" bindtap="onFilterActivityTap">
+              <view class="filter-amenity-check"></view>
+              <text class="filter-amenity-text">徒步</text>
+            </view>
+            <view class="filter-amenity-item {{utils.hasAmenity(filterActivities, '游泳') ? 'filter-amenity-item--active' : ''}}" data-name="游泳" data-type="activity" bindtap="onFilterActivityTap">
+              <view class="filter-amenity-check"></view>
+              <text class="filter-amenity-text">游泳</text>
+            </view>
+            <view class="filter-amenity-item {{utils.hasAmenity(filterActivities, '钓鱼') ? 'filter-amenity-item--active' : ''}}" data-name="钓鱼" data-type="activity" bindtap="onFilterActivityTap">
+              <view class="filter-amenity-check"></view>
+              <text class="filter-amenity-text">钓鱼</text>
+            </view>
+            <view class="filter-amenity-item {{utils.hasAmenity(filterActivities, '骑行') ? 'filter-amenity-item--active' : ''}}" data-name="骑行" data-type="activity" bindtap="onFilterActivityTap">
+              <view class="filter-amenity-check"></view>
+              <text class="filter-amenity-text">骑行</text>
+            </view>
+          </view>
+        </view>
+        <view class="filter-divider"></view>
+        <!-- 8. 是否可过夜 -->
+        <view class="filter-section">
+          <text class="filter-section-title">是否可过夜</text>
+          <view class="filter-fav-list filter-fav-list--row">
+            <view class="filter-fav-item {{filterOvernight === '是' ? 'filter-fav-item--active' : ''}}" data-overnight="是" bindtap="onFilterOvernightTap">
+              <text class="filter-fav-title">是</text>
+            </view>
+            <view class="filter-fav-item {{filterOvernight === '否' ? 'filter-fav-item--active' : ''}}" data-overnight="否" bindtap="onFilterOvernightTap">
+              <text class="filter-fav-title">否</text>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="filter-footer">
+        <view class="filter-btn filter-btn--reset" bindtap="onFilterReset">全部清除</view>
+        <view class="filter-btn filter-btn--confirm" bindtap="onFilterConfirm">查看 {{filterResultCount}} 个结果</view>
+      </view>
+    </view>
+
+    <scroll-view class="category-scroll" scroll-x show-scrollbar="{{false}}" wx:if="{{viewMode === 'list'}}">
+      <view class="cat-pill {{selectedCat === cat ? 'cat-pill--active' : ''}}" wx:for="{{catTabs}}" wx:for-item="cat" wx:key="*this" data-cat="{{cat}}" bindtap="onCatTap">{{cat}}</view>
+    </scroll-view>
+
+    <view class="explore-card-list">
+      <view class="explore-card-wrap" wx:for="{{campsDisplay}}" wx:key="id" bindtap="onCardTap" data-id="{{item.id}}">
+        <view class="home-card home-card--vertical">
+          <view class="home-card-img-wrap">
+            <view class="home-card-type-tag"> {{item._type === 'spot' ? '营位' : (item._type === 'service' ? '体验' : '营地')}} </view>
+            <swiper class="home-card-img-swiper" indicator-dots="{{true}}" indicator-color="rgba(255,255,255,0.5)" indicator-active-color="#FFF" circular autoplay interval="4000" duration="500">
+              <swiper-item wx:for="{{item.imgs}}" wx:for-item="imgUrl" wx:key="*this">
+                <image class="home-card-img" src="{{imgUrl}}" mode="aspectFill" />
+              </swiper-item>
+            </swiper>
+            <view class="home-card-fav" catchtap="onFavTap" data-id="{{item.id}}" data-type="{{item._type}}">
+              <image src="{{utils.isFavForItem(item, favCampIds, favSpotIds, favServiceIds) ? '/images/icons/heart-red.png' : '/images/icons/heart-outline.png'}}" mode="aspectFit" />
+            </view>
+            <view class="home-card-badge">
+              <image src="/images/icons/star.png" class="badge-icon" /><text>{{utils.formatRating(item.rating)}}</text>
+            </view>
+          </view>
+          <view class="home-card-info">
+            <text class="home-card-name">{{item.campName}}</text>
+            <text class="home-card-subtitle" wx:if="{{item._type === 'service' && (item.campSiteName || item.clubName)}}">{{item.campSiteName || item.clubName}}</text>
+            <view class="home-card-meta" wx:if="{{item._type !== 'service'}}">
+              <image src="/images/icons/location.png" class="meta-icon" /><text>{{utils.truncate(item.location, 25)}} </text><text class="meta-distance">{{utils.formatDist(item.distance)}}</text>
+            </view>
+            <view class="home-card-footer">
+              <view class="home-card-price-wrap">
+                <text class="home-card-price">{{item.price}}</text>
+              </view>
+              <view class="home-card-btn">{{item._type === 'service' ? '立即购买' : '立即预定'}}</view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="search-overlay" wx:if="{{showSearch}}">
+    <view class="search-overlay-mask" bindtap="onSearchClose" />
+    <view class="search-overlay-content">
+      <view class="search-overlay-header">
+        <view class="search-overlay-input-wrap">
+          <image class="search-overlay-icon" src="/images/icons/search.png" mode="aspectFit" />
+          <input class="search-overlay-input" placeholder="搜索营地、营位、体验" value="{{searchKeyword}}" bindinput="onSearchInput" bindfocus="onSearchFocus" focus="{{showSearch}}" />
+          <text class="search-overlay-clear" wx:if="{{searchKeyword}}" bindtap="onSearchClear">×</text>
+        </view>
+        <text class="search-overlay-cancel" bindtap="onSearchClose">取消</text>
+      </view>
+      <scroll-view class="search-overlay-body" scroll-y>
+        <view class="search-empty" wx:if="{{!searchKeyword}}">
+          <text>输入关键词搜索营地、营位或体验</text>
+        </view>
+        <view class="search-empty" wx:elif="{{!searchResults.camps.length && !searchResults.spots.length && !searchResults.experiences.length}}">
+          <text>未找到相关结果</text>
+        </view>
+        <view wx:else>
+          <view class="search-group" wx:if="{{searchResults.camps.length}}">
+            <text class="search-group-title">营地</text>
+            <view class="search-item" wx:for="{{searchResults.camps}}" wx:key="id" data-type="camp" data-id="{{item.id}}" bindtap="onSearchResultTap">
+              <image class="search-item-img" src="{{item.imgs && item.imgs[0] || '/images/camp-forest.png'}}" mode="aspectFill" />
+              <view class="search-item-info">
+                <text class="search-item-name">{{item.campName}}</text>
+                <text class="search-item-meta">{{utils.truncate(item.location, 25)}}</text>
+              </view>
+            </view>
+          </view>
+          <view class="search-group" wx:if="{{searchResults.spots.length}}">
+            <text class="search-group-title">营位</text>
+            <view class="search-item" wx:for="{{searchResults.spots}}" wx:key="id" data-type="spot" data-id="{{item.id}}" bindtap="onSearchResultTap">
+              <image class="search-item-img" src="{{item.imgs && item.imgs[0] || item.img || '/images/camp-forest.png'}}" mode="aspectFit" />
+              <view class="search-item-info">
+                <text class="search-item-name">{{item.spotName}} · {{item.campName}}</text>
+                <text class="search-item-meta">{{item.location}}</text>
+              </view>
+            </view>
+          </view>
+          <view class="search-group" wx:if="{{searchResults.experiences.length}}">
+            <text class="search-group-title">体验</text>
+            <view class="search-item" wx:for="{{searchResults.experiences}}" wx:key="id" data-type="service" data-id="{{item.id}}" bindtap="onSearchResultTap">
+              <image class="search-item-img" src="{{item.imgs && item.imgs[0] || '/images/camp-forest.png'}}" mode="aspectFit" />
+              <view class="search-item-info">
+                <text class="search-item-name">{{item.campName}}</text>
+                <text class="search-item-meta">{{item.campSiteName || item.location}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+  <custom-tab-bar />
+</view>

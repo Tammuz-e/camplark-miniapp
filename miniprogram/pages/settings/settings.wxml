@@ -1,0 +1,19 @@
+<view class="settings-page">
+  <view class="settings-topbar">
+    <image class="settings-back" src="/images/icons/back.svg" mode="aspectFit" bindtap="onBack" />
+  </view>
+  <view class="settings-body">
+    <view class="settings-section">
+      <text class="settings-section-title">用户协议</text>
+      <scroll-view class="settings-content" scroll-y>
+        <text class="settings-text">{{userAgreement}}</text>
+      </scroll-view>
+    </view>
+    <view class="settings-section">
+      <text class="settings-section-title">隐私政策</text>
+      <scroll-view class="settings-content" scroll-y>
+        <text class="settings-text">{{privacyPolicy}}</text>
+      </scroll-view>
+    </view>
+  </view>
+</view>

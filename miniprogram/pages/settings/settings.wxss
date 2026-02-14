@@ -1,0 +1,38 @@
+.settings-page { min-height: 100vh; background: #F9FAFB; }
+.settings-topbar {
+  display: flex; align-items: center; padding: 24rpx 32rpx;
+  padding-top: calc(24rpx + env(safe-area-inset-top));
+  background: #F9FAFB; border-bottom: 1rpx solid #F3F4F6;
+}
+.settings-back { width: 64rpx; height: 64rpx; }
+.settings-body { padding: 32rpx 48rpx 48rpx; }
+
+.settings-section {
+  background: #FFF;
+  border-radius: 32rpx;
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+  border: 1rpx solid #F3F4F6;
+}
+.settings-section:last-child { margin-bottom: 0; }
+.settings-section-title {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #101828;
+  display: block;
+  margin-bottom: 24rpx;
+}
+.settings-content {
+  height: 480rpx;
+  padding: 24rpx;
+  background: #F9FAFB;
+  border-radius: 16rpx;
+  box-sizing: border-box;
+}
+.settings-text {
+  font-size: 28rpx;
+  color: #4A5565;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  word-break: break-all;
+}

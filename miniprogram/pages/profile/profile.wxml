@@ -1,0 +1,65 @@
+<view class="profile-page">
+  <view class="profile-body">
+    <view class="user-section" bindtap="onUserSectionTap">
+      <view class="avatar-box">
+        <image wx:if="{{userInfo.avatarUrl}}" class="avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill" />
+        <view wx:else class="avatar avatar-default" />
+      </view>
+      <text class="user-name {{isLoggedIn ? '' : 'user-name-login'}}">{{userInfo.nickName}}</text>
+      <text class="user-tag" wx:if="{{isLoggedIn}}">{{userInfo.tag}}</text>
+    </view>
+
+    <view class="login-modal-mask" wx:if="{{showLoginModal}}" bindtap="onCloseLoginModal" />
+    <view class="login-modal {{showLoginModal ? 'login-modal-show' : ''}}" wx:if="{{showLoginModal}}">
+      <view class="login-modal-content" catchtap="">
+        <view class="login-modal-header">
+          <text class="login-modal-title">完善资料</text>
+          <view class="login-modal-close" bindtap="onCloseLoginModal">×</view>
+        </view>
+        <view class="login-modal-body">
+          <view class="login-modal-avatar-wrap">
+            <text class="login-modal-label">头像</text>
+            <button class="login-avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+              <image wx:if="{{loginAvatar}}" class="login-avatar-preview" src="{{loginAvatar}}" mode="aspectFill" />
+              <text wx:else class="login-avatar-placeholder">选择头像</text>
+            </button>
+          </view>
+          <view class="login-modal-nickname-wrap">
+            <text class="login-modal-label">昵称</text>
+            <input class="login-nickname-input" type="nickname" placeholder="请输入昵称" value="{{loginNickname}}" bindinput="onLoginNicknameInput" />
+          </view>
+        </view>
+        <view class="login-modal-footer">
+          <button class="login-modal-submit" bindtap="onLoginSubmit">完成</button>
+        </view>
+      </view>
+    </view>
+
+    <view class="stats-bar">
+      <view class="stat stat-tap" bindtap="onFavsTap"><text class="stat-value">{{stats.favs}}</text><text class="stat-name">收藏</text></view>
+      <view class="stat-line"></view>
+      <view class="stat stat-tap" bindtap="onReviewsTap"><text class="stat-value">{{stats.reviews}}</text><text class="stat-name">评价</text></view>
+    </view>
+
+    <view class="menu-group">
+      <view class="menu-row" bindtap="onMyBookings">
+        <view class="icon-box icon-box--green"><image src="/images/icons/calendar.png" mode="aspectFit" /></view>
+        <text>我的预订</text>
+      </view>
+      <button class="menu-row-btn" open-type="contact">
+        <view class="icon-box icon-box--gray"><image class="icon-img-sm" src="/images/icons/customer-service.png" mode="aspectFit" /></view>
+        <text>平台客服</text>
+      </button>
+      <view class="menu-row" bindtap="onSettings">
+        <view class="icon-box icon-box--gray"><image src="/images/icons/gear.png" mode="aspectFit" /></view>
+        <text>设置</text>
+      </view>
+      <view class="menu-row" wx:if="{{isLoggedIn}}" bindtap="onLogout">
+        <view class="icon-box icon-box--gray"><image src="/images/icons/logout.png" mode="aspectFit" /></view>
+        <text>退出登录</text>
+      </view>
+    </view>
+    <view class="profile-copyright">© 2026 嘢营CAMPLARK</view>
+  </view>
+  <custom-tab-bar />
+</view>

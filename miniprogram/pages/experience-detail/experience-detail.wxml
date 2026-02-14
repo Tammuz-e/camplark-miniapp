@@ -1,0 +1,99 @@
+<wxs module="utils">
+function formatRating(r) {
+  if (r == null || r === '') return '';
+  if (r == 5 || r === '5') return '5.0';
+  return r;
+}
+function truncateTitle(str) {
+  if (!str) return '';
+  return str.length > 10 ? str.substring(0, 10) + '...' : str;
+}
+module.exports.formatRating = formatRating;
+module.exports.truncateTitle = truncateTitle;
+</wxs>
+<view class="exp-detail-page" wx:if="{{experience}}">
+  <view class="exp-detail-hero-wrap">
+    <swiper class="exp-detail-swiper" indicator-dots="{{true}}" indicator-color="rgba(255,255,255,0.5)" indicator-active-color="#FFF" circular autoplay interval="4000">
+      <swiper-item wx:for="{{experience.imgs}}" wx:key="*this">
+        <image class="exp-detail-hero-img" src="{{item}}" mode="aspectFill" />
+      </swiper-item>
+    </swiper>
+    <image class="exp-detail-back" src="/images/icons/back.svg" mode="aspectFit" bindtap="onBack" />
+  </view>
+
+  <view class="exp-detail-card">
+    <view class="exp-detail-top">
+      <view class="exp-detail-meta-row">
+        <view class="exp-detail-activity-tag">{{experience.activityType}}</view>
+        <view class="exp-detail-rating-row">
+          <image src="/images/icons/star.svg" class="exp-detail-star" mode="aspectFit" />
+          <text class="exp-detail-rating-num">{{utils.formatRating(experience.rating)}}</text>
+        </view>
+      </view>
+      <text class="exp-detail-title">{{utils.truncateTitle(experience.campName)}}</text>
+      <view class="exp-detail-camp-row" wx:if="{{experience.campSiteName}}" bindtap="onCampTap">
+        <image class="exp-detail-camp-logo" src="{{experience.campLogo || '/images/camp-forest.png'}}" mode="aspectFill" />
+        <text class="exp-detail-camp">{{experience.campSiteName}}</text>
+        <text class="exp-detail-arrow">›</text>
+      </view>
+      <view class="exp-detail-price-block">
+        <text class="exp-detail-price">{{experience.price}}</text>
+      </view>
+    </view>
+
+    <view class="exp-detail-section" wx:if="{{experience.contentBlocks && experience.contentBlocks.length}}">
+      <text class="exp-detail-section-title">体验介绍</text>
+      <view class="exp-detail-content-blocks">
+        <block wx:for="{{experience.contentBlocks}}" wx:key="index">
+          <text wx:if="{{item.type === 'text'}}" class="exp-detail-content-text">{{item.content}}</text>
+          <image wx:elif="{{item.type === 'image'}}" class="exp-detail-content-img" src="{{item.src}}" mode="widthFix" />
+        </block>
+      </view>
+    </view>
+
+    <view class="exp-detail-section" wx:if="{{experience.latitude && experience.longitude}}">
+      <text class="exp-detail-section-title">位置</text>
+      <view class="exp-detail-map-wrap">
+        <map class="exp-detail-map" latitude="{{experience.latitude}}" longitude="{{experience.longitude}}" scale="14" show-location />
+        <view class="exp-detail-map-pin">
+          <image src="/images/icons/map-pin.svg" class="exp-detail-pin-icon" mode="aspectFit" />
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="exp-detail-footer">
+    <text class="exp-detail-footer-price">{{experience.price}}</text>
+    <button class="exp-detail-footer-btn" bindtap="onBook">预订体验</button>
+  </view>
+
+  <view class="exp-book-modal-mask" wx:if="{{showBookModal}}" bindtap="onCloseBookModal" />
+  <view class="exp-book-modal {{showBookModal ? 'exp-book-modal-show' : ''}}" wx:if="{{showBookModal}}">
+    <view class="exp-book-modal-content" catchtap="">
+      <view class="exp-book-modal-header">
+        <text class="exp-book-modal-title">预订体验</text>
+        <view class="exp-book-modal-close" bindtap="onCloseBookModal">×</view>
+      </view>
+      <view class="exp-book-modal-body">
+        <view class="exp-book-modal-field">
+          <text class="exp-book-modal-label">人数</text>
+          <view class="exp-book-modal-stepper">
+            <view class="exp-book-modal-stepper-value">{{guests}} 人</view>
+            <view class="exp-book-modal-stepper-btns">
+              <view class="exp-book-modal-btn {{guests <= 1 ? 'disabled' : ''}}" bindtap="onGuestsMinus">−</view>
+              <view class="exp-book-modal-btn {{guests >= 10 ? 'disabled' : ''}}" bindtap="onGuestsPlus">+</view>
+            </view>
+          </view>
+        </view>
+        <view class="exp-book-modal-divider" />
+        <view class="exp-book-modal-cost">
+          <view class="exp-book-modal-cost-row">
+            <text class="exp-book-modal-cost-label">{{experience.price}} × {{guests}} 人</text>
+            <text class="exp-book-modal-cost-value">¥{{experience.priceNum * guests}}</text>
+          </view>
+        </view>
+      </view>
+      <view class="exp-book-modal-submit" bindtap="onConfirmBook">确认预订</view>
+    </view>
+  </view>
+</view>
