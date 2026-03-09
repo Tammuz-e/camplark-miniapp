@@ -1,0 +1,16 @@
+/* 嘢营CAMPLARK - Arco Design Pro 风格（参照墨刀原型） */
+:root {
+  --primary: #165dff;
+  --primary-light: #4080ff;
+  --primary-dark: #0e42d2;
+  --sidebar-bg: #ffffff;
+  --sidebar-hover: #f2f3f5;
+  --sidebar-active: #e8f3ff;
+  --sidebar-active-text: #165dff;
+  --page-bg: #f7f8fa;
+  --card-bg: #fff;
+  --card-radius: 4px;
+  --card-shadow: 0 2px 8px rgba(0,0,0,.04);
+  --border-color: #e5e6eb;
+}
+/* Arco 主色已在组件库默认主题中 */

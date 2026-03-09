@@ -1,0 +1,16 @@
+/* Arco Design Pro 风格 - 通用页面 */
+.page-container { padding: 24px; min-height: calc(100vh - 56px); }
+.page-card {
+  background: var(--card-bg);
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border-color);
+  padding: 24px;
+  margin-bottom: 0;
+}
+.toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+.toolbar h2 { margin: 0; font-size: 16px; font-weight: 600; color: #1d2129; }
+.empty-tip { color: #86909c; text-align: center; padding: 48px 20px; font-size: 14px; }
+.data-table { border-radius: 4px; overflow: hidden; border: 1px solid var(--border-color); }
+.page-card :deep(.arco-table) { border-color: #e5e6eb; }
+.page-card :deep(.arco-table-th) { font-weight: 500; color: #1d2129; font-size: 14px; background: #f7f8fa; }

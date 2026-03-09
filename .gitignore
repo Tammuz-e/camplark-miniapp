@@ -3,3 +3,15 @@ node_modules/
 *.log
 .idea/
 .vscode/
+
+# 后端
+backend/data/
+backend/uploads/
+
+# 部署
+logs/
+
+# 构建产物
+dist/
+admin-platform/dist/
+admin-camp/dist/

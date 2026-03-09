@@ -1,0 +1,15 @@
+/* 嘢营CAMPLARK 营地端 - Arco Design Pro 风格（绿色主色区分） */
+:root {
+  --primary: #00b42a;
+  --primary-light: #23c343;
+  --primary-dark: #009a29;
+  --sidebar-bg: #ffffff;
+  --sidebar-hover: #f2f3f5;
+  --sidebar-active: #e8ffea;
+  --sidebar-active-text: #00b42a;
+  --page-bg: #f7f8fa;
+  --card-bg: #fff;
+  --card-radius: 4px;
+  --card-shadow: 0 2px 8px rgba(0,0,0,.04);
+  --border-color: #e5e6eb;
+}
